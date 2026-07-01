@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 export function Home() {
   return (
-    <section className="h-screen flex flex-col justify-center items-center">
+    <section className="min-h-screen flex flex-col justify-center items-center">
       <div className="mb-20 bg-[#6CF8BB] p-1 text-[#64748B] rounded-full">
         <p> ✔️ Trusted by 10,000+ Skilled Professionals</p>
       </div>
