@@ -18,13 +18,16 @@ function Navbar() {
           className=" font-bold text-[#1E3A8A] hover:font-bold hover:text-lg"
           to="/"
         >
-          Dashboard
+          Home
         </Link>
         <Link className="hover:text-[#1E3A8A] hover:font-bold" to="/Messages">
-          Messages
+          Jobs
         </Link>
         <Link className="hover:text-[#1E3A8A] hover:font-bold" to="/Explore">
-          Explore
+          Skills
+        </Link>
+        <Link className="hover:text-[#1E3A8A] hover:font-bold" to="/Explore">
+          About
         </Link>
       </nav>
       <div className="flex gap-8">
