@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Form, Link } from "react-router-dom";
 
 {
@@ -15,6 +16,13 @@ import { Form, Link } from "react-router-dom";
 }
 
 export default function Login() {
+   const [FromData,SetFromData]=useState(null);
+
+   const Handelchange=(e)=>{
+   }
+
+
+
   return (
     <div className="bg-[#F8FAFC] h-screen flex justify-center items-center ">
       <div className="w-100 h-110 bg-[#FFFFFF] shadow-2xl border border-[#F2F4F6] rounded">

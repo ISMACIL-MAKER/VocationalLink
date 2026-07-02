@@ -1,4 +1,5 @@
-import { Form, Link } from "react-router-dom";
+import { useState } from "react";
+import {  Link, useNavigate } from "react-router-dom";
 
 {
   /*
@@ -14,6 +15,62 @@ import { Form, Link } from "react-router-dom";
     */
 }
 export default function Register() {
+
+  const[ FromData,SetFromData]=useState({
+    username:"",
+    email:"",
+    password:"",
+    role:"Job-Seeker",
+  });
+
+  const navigate=useNavigate();
+
+  const handleChange=(e)=>{
+    SetFromData({
+      ...FromData,
+      [e.target.name]:e.target.value,
+    });
+  }
+
+  const handelsubmit=async(e)=>{
+    e.preventDefault();
+
+    try {
+      const resonse=await fetch("http://localhost:5000/api/User/register",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json",
+        },body:JSON.stringify({
+          username:FromData.username,
+          email:FromData.email,
+          password:FromData.password,
+          role:FromData.role
+
+        }),
+      });
+
+      const data=await resonse.json();
+
+      if(!resonse.ok){
+        throw new Error(data.message || "waxab khaldamay")
+      }
+
+      alert("walagu gulayastay Register");
+
+      setTimeout(()=>{
+        navigate("/Login");
+      },1000)
+
+
+    } catch (error) {
+
+      console.log(error.message);
+      
+    }
+  
+  }
+
+
   return (
     <div className="bg-[#F8FAFC] h-screen flex justify-center items-center m-2">
       <div className="w-100 min-h-screen bg-[#FFFFFF] shadow-2xl border border-[#F2F4F6] rounded">
@@ -31,11 +88,14 @@ export default function Register() {
         </div>
         {/*FORM CONTAINER*/}
         <div className=" p-10">
-          <form className="flex flex-col p-2 mb-10">
+          <form onSubmit={handelsubmit} className="flex flex-col p-2 mb-10">
             <label className="text-[191C1E] text-sm mb-2 ">Full Name:</label>
             <input
               className="border p-1 rounded w-full mb-4 text-[#00236F] text-sm"
               type="text"
+              name="username"
+              value={FromData.username}
+              onChange={handleChange}
               placeholder="👤 Username"
               required
             />
@@ -43,6 +103,9 @@ export default function Register() {
             <input
               className="border p-1 rounded w-full mb-4 text-[#00236F] text-sm"
               type="email"
+              name="email"
+              value={FromData.email}
+              onChange={handleChange}
               placeholder="📩    example@gmail.com"
               required
             />
@@ -50,6 +113,9 @@ export default function Register() {
             <input
               className="border rounded text-[#00236F] text-sm p-1 w-full mb-4 font-bold text-lg"
               type="password"
+              name="password"
+              value={FromData.password}
+              onChange={handleChange}
               required
               placeholder="🔐   ..................."
             />
@@ -59,9 +125,9 @@ export default function Register() {
             <label className="text-[191C1E] font-bold text-sm mt-2">
               type ⬇️
             </label>
-            <select className="border p-2 border-[#fffd] bg-[#F2F4F6] rounded-full text-[#1E3A8A] font-bold mt-2">
+            <select name="role" value={FromData.role} onChange={handleChange} className="border p-2 border-[#fffd] bg-[#F2F4F6] rounded-full text-[#1E3A8A] font-bold mt-2">
               <option value="Job-Seeker">Job Seeker</option>
-              <option value="">Employer</option>
+              <option value="Employer">Employer</option>
             </select>
           </form>
         </div>
