@@ -1,0 +1,68 @@
+        <div className="content-Left">
+          <div className="Form-login">
+            <div className="Header-top">
+              <h1 className="title-left"> Welcome Back 👋</h1>
+              <p className="left-content">
+                Please enter your details to access your studio.
+              </p>
+            </div>
+            <div className="From-container">
+              <form className="from-item" onSubmit={handleSubmit}>
+                <input
+                  className="input"
+                  type="email"
+                  placeholder="example@gmail.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+
+                <input
+                  className="input"
+                  type="password"
+                  placeholder="password......"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+
+                {/* 🌟 KANI WAA BADHANKA CUSUB EE LOO DARAY */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    marginTop: "-5px",
+                    marginBottom: "15px",
+                  }}
+                >
+                  <Link
+                    to="/forgot-password"
+                    style={{
+                      color: "#4CAF50",
+                      textDecoration: "none",
+                      fontSize: "13px",
+                      fontWeight: "500",
+                    }}
+                  >
+                    forget Password ?
+                  </Link>
+                </div>
+
+                {error && <p className="error-text">{error}</p>}
+                <button className="from-button" disabled={loading}>
+                  {loading ? "Loading....." : "sign in to studio"}
+                </button>
+              </form>
+              <p className="register-text">
+                Account ma lihid?{" "}
+                <Link to="/Register" className="register-link">
+                  Register
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

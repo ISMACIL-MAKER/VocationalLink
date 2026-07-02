@@ -60,7 +60,7 @@ export default function Register() {
               type ⬇️
             </label>
             <select className="border p-2 border-[#fffd] bg-[#F2F4F6] rounded-full text-[#1E3A8A] font-bold mt-2">
-              <option value="">Job Seeker</option>
+              <option value="Job-Seeker">Job Seeker</option>
               <option value="">Employer</option>
             </select>
           </form>
