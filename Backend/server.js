@@ -1,13 +1,16 @@
-import exprees from "express";
+import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import User from "./models/User.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken"
 
 dotenv.config();
-const app = exprees();
+const app = express();
 
-app.use(exprees.json());
+app.use(express.json());
+app.use(cors());
 
 app.get("/teste", (req, res) => {
   res.json("hellow");
@@ -16,19 +19,78 @@ app.get("/teste", (req, res) => {
 app.post("/api/User/register", async (req, res) => {
   try {
     const { username, password, email, role } = req.body;
-    if (!username && !password && !email && !role) {
-      res.status(401).json({ message: "buxui dhaman " });
+    if (!username || !password || !email || !role) {
+      return res.status(400).json({ message: "Fadlan buxuxi dhaman " });
     }
 
-    const UserCreate = await User.create({
+    const existe = await User.findOne({ email: email.toLowerCase() });
+    if (existe) {
+      return res.status(400).json({ message: "Email already exists." });
+    }
+    const hashedpassword= await bcrypt.hash(password,10);
+    const NewUser = await User.create({
       username,
-      password,
-      email:email.toLowerCase(),
+      password:hashedpassword,
+      email: email.toLowerCase(),
       role,
     });
-  } catch (error) {
-    res.status(400).json({message: error.message});
 
+    return res.status(201).json({
+      message: "wala diwangaleye",
+      user: {
+        id: NewUser._id,
+        username: NewUser.username,
+        email: NewUser.email,
+        role: NewUser.role,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+app.post("/api/User/Login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password ) {
+      return res
+        .status(400)
+        .json({ message: "Fadlan geli email iyo password" });
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase() });
+    if (!user) {
+      return res.status(400).json({ message: "lama hayo emailkan" });
+    }
+
+    const ismaching = await bcrypt.compare(password, user.password);
+    if (!ismaching) {
+      return res.status(400).json({ message: "password and email ma jero" });
+    }
+
+    const Token=jwt.sign(
+      {
+        id:user._id, role:user.role
+      },
+      process.env.JWT_SECRET,
+      {expiresIn:"7d"}
+    );
+
+    return res.status(200).json({
+      message: "Login succesful",
+      Token,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Server error while logging in.",
+      error: error.message,
+    });
   }
 });
 
