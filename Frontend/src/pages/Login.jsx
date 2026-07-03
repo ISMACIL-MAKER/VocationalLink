@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Form, Link } from "react-router-dom";
+import {  Link, useNavigate } from "react-router-dom";
+
 
 {
   /*
@@ -16,12 +17,44 @@ import { Form, Link } from "react-router-dom";
 }
 
 export default function Login() {
-   const [FromData,SetFromData]=useState(null);
+  const Navigate=useNavigate();
+  const [FromData, SetFromData] = useState({
+    email: "",
+    password: "",
+  });
 
-   const Handelchange=(e)=>{
-   }
+  const Handelchange = (e) => {
+    SetFromData({ ...FromData, [e.target.name]: e.target.value });
+  };
 
+  const HandelSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/api/User/Login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(FromData),
+      });
 
+      const Data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Waxbaa khaldamay");
+      }
+      alert("Login susses ");
+      localStorage.setItem("token", Data.Token);
+      localStorage.setItem("user", JSON.stringify(Data.user));
+      if (Data.user.role === "Jop-seeker") {
+        Navigate("/Jop-seeker-Dashboard");
+      } else {
+        Navigate("/emmploye-Dashoard");
+      }
+    } catch (error) {
+       alert(error.message);
+    }
+  };
 
   return (
     <div className="bg-[#F8FAFC] h-screen flex justify-center items-center ">
@@ -34,22 +67,30 @@ export default function Login() {
         </div>
         {/*FORM CONTAINER*/}
         <div className=" p-10">
-          <form className="flex flex-col p-2 mb-10">
+          <form onSubmit={HandelSubmit} className="flex flex-col p-2 mb-10">
             <label className="text-[191C1E] text-sm mb-2 ">Email:</label>
             <input
               className="border p-1 rounded w-full mb-4 text-[#00236F] text-sm"
               type="email"
+              value={FromData.email}
+              onChange={Handelchange}
+              name="email"
               placeholder="📩    example@gmail.com"
               required
             />
             <label className="text-[191C1E] text-sm mb-2">Password:</label>
-            <input className="border rounded text-[#00236F] text-sm p-1 w-full mb-4 font-bold text-lg" type="password" required placeholder="🔐   ..................." />
-            <button className="bg-[#00236F] rounded py-2 text-[#FFFFFF] font-bold text-sm">Sign in to Account</button>
-            <label className="text-[191C1E] font-bold text-sm mt-2">type ⬇️</label>
-            <select className="border p-2 border-[#fffd] bg-[#F2F4F6] rounded-full text-[#1E3A8A] font-bold mt-2">
-                <option value="">Job Seeker</option>
-                <option value="">Employer</option>
-            </select>
+            <input
+              className="border rounded text-[#00236F] text-sm p-1 w-full mb-4 font-bold text-lg"
+              type="password"
+              required
+              name="password"
+              value={FromData.password}
+              onChange={Handelchange}
+              placeholder="🔐   ..................."
+            />
+            <button className="bg-[#00236F] rounded py-2 text-[#FFFFFF] font-bold text-sm">
+              Sign in to Account
+            </button>
           </form>
         </div>
       </div>

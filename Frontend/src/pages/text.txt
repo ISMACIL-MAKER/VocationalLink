@@ -1,68 +1,34 @@
-        <div className="content-Left">
-          <div className="Form-login">
-            <div className="Header-top">
-              <h1 className="title-left"> Welcome Back 👋</h1>
-              <p className="left-content">
-                Please enter your details to access your studio.
-              </p>
-            </div>
-            <div className="From-container">
-              <form className="from-item" onSubmit={handleSubmit}>
-                <input
-                  className="input"
-                  type="email"
-                  placeholder="example@gmail.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+import React from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import { Home } from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
-                <input
-                  className="input"
-                  type="password"
-                  placeholder="password......"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-
-                {/* 🌟 KANI WAA BADHANKA CUSUB EE LOO DARAY */}
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    marginTop: "-5px",
-                    marginBottom: "15px",
-                  }}
-                >
-                  <Link
-                    to="/forgot-password"
-                    style={{
-                      color: "#4CAF50",
-                      textDecoration: "none",
-                      fontSize: "13px",
-                      fontWeight: "500",
-                    }}
-                  >
-                    forget Password ?
-                  </Link>
-                </div>
-
-                {error && <p className="error-text">{error}</p>}
-                <button className="from-button" disabled={loading}>
-                  {loading ? "Loading....." : "sign in to studio"}
-                </button>
-              </form>
-              <p className="register-text">
-                Account ma lihid?{" "}
-                <Link to="/Register" className="register-link">
-                  Register
-                </Link>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+const App = () => {
+  navigate=useNavigate();
+  localStorage.setItem("token", Data.Token);
+  localStorage.setItem("user", JSON.stringify(Data.user));
+  const role=Data.user.role?"Jop-seeker":"employe";
+  const token=Data.Token;
+  return (
+    <div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Navbar />
+              <Home />
+            </>
+          }
+        />
+        <Route path="/Login" element={<Login />} />
+        {/* <Route path="/Login" element={token?(role==="Jop-seeker")?(<Navigate to="/Jop-seeker-Dashboard"/>):(<Navigate to="/emmploye-Dashoard" />):(<Login/>)} /> */}
+        <Route path="/Register" element={<Register />} />
+      </Routes>
     </div>
   );
-}
+};
+
+export default App;

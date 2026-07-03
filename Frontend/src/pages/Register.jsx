@@ -16,6 +16,8 @@ import {  Link, useNavigate } from "react-router-dom";
 }
 export default function Register() {
 
+  const [Loading,setLoading]=useState(false);
+
   const[ FromData,SetFromData]=useState({
     username:"",
     email:"",
@@ -23,7 +25,9 @@ export default function Register() {
     role:"Job-Seeker",
   });
 
+   
   const navigate=useNavigate();
+  
 
   const handleChange=(e)=>{
     SetFromData({
@@ -34,6 +38,7 @@ export default function Register() {
 
   const handelsubmit=async(e)=>{
     e.preventDefault();
+    setLoading(true)
 
     try {
       const resonse=await fetch("http://localhost:5000/api/User/register",{
@@ -119,8 +124,9 @@ export default function Register() {
               required
               placeholder="🔐   ..................."
             />
-            <button className="bg-[#00236F] rounded py-2 text-[#FFFFFF] font-bold text-sm">
-              Create Account
+            <button  disabled={Loading}className="bg-[#00236F] rounded py-2 text-[#FFFFFF] font-bold text-sm">
+             
+              {Loading ? "Loading....":" Create Account"}
             </button>
             <label className="text-[191C1E] font-bold text-sm mt-2">
               type ⬇️
