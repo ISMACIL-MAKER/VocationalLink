@@ -18,6 +18,7 @@ import {  Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const Navigate=useNavigate();
+  const [loading,setloading]=useState(false);
   const [FromData, SetFromData] = useState({
     email: "",
     password: "",
@@ -29,6 +30,7 @@ export default function Login() {
 
   const HandelSubmit = async (e) => {
     e.preventDefault();
+    setloading(true);
     try {
       const response = await fetch("http://localhost:5000/api/User/Login", {
         method: "POST",
@@ -52,7 +54,7 @@ export default function Login() {
         Navigate("/emmploye-Dashoard");
       }
     } catch (error) {
-       alert(error.message);
+       alert(error.message || "cilad ba dhaxday");
     }
   };
 
@@ -88,8 +90,9 @@ export default function Login() {
               onChange={Handelchange}
               placeholder="🔐   ..................."
             />
-            <button className="bg-[#00236F] rounded py-2 text-[#FFFFFF] font-bold text-sm">
-              Sign in to Account
+            <button disabled={loading} className="bg-[#00236F] rounded py-2 text-[#FFFFFF] font-bold text-sm">
+            
+              {loading?"Loading":" Sign in to Account"}
             </button>
           </form>
         </div>
