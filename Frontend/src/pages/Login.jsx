@@ -48,11 +48,18 @@ export default function Login() {
       alert("Login susses ");
       localStorage.setItem("token", Data.Token);
       localStorage.setItem("user", JSON.stringify(Data.user));
-      if (Data.user.role === "Jop-seeker") {
+      if (Data.user.role === "Job-Seeker") {
         Navigate("/Jop-seeker-Dashboard");
-      } else {
-        Navigate("/emmploye-Dashoard");
       }
+
+      if(Data.user.role === "Employer"){
+         Navigate("/emmploye-Dashoard");
+      }
+      
+      {/*    else {
+        Navigate("/emmploye-Dashoard");
+      }*/}
+   
     } catch (error) {
        alert(error.message || "cilad ba dhaxday");
     }

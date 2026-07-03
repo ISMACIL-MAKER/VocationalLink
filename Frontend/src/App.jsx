@@ -29,7 +29,6 @@ const App = () => {
           path="/emmploye-Dashoard"
           element={
             <ProtectedRoute role="Employer">
-                <Layout></Layout>
               <Dashoard_employe />
             </ProtectedRoute>
           }
@@ -38,7 +37,6 @@ const App = () => {
           path="/Jop-seeker-Dashboard"
           element={
             <ProtectedRoute role="Job-Seeker">
-              <Layout></Layout>
               <Dashoard_seeker />
             </ProtectedRoute>
           }
