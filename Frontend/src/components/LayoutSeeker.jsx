@@ -28,13 +28,13 @@ import {
 export default function LayoutSeeker() {
   const navigate = useNavigate();
   return (
-    <div className="bg-[#F2F4F6] h-screen w-40 flex flex-col justify-between">
+    <div className="bg-[#F2F4F6] h-screen w-43 flex flex-col justify-between">
       {/* 
       sidebar head
       */}
       <div className=" ">
         <div className="mb-10 text-[#00236F] font-bold p-4">
-          <h1>VocationalLink</h1>
+          <h1  className="text-[20px] ">VocationalLink</h1>
         </div>
 
         <div className=" flex flex-row text-sm  ">
@@ -52,9 +52,9 @@ export default function LayoutSeeker() {
       sidebar links
       */}
 
-      <nav className="bg-blue-300 flex flex-col pl-6 gap-10 mb-8">
+      <nav className=" flex flex-col pl-6 gap-10 mb-8">
         <div
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 hover:bg-[#6CF8BB] hover:rounded p-1  "
           onClick={() => navigate("/Dashbord")}
         >
           <span>
@@ -63,7 +63,7 @@ export default function LayoutSeeker() {
           Dashbord
         </div>
         <div
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 hover:bg-[#6CF8BB] hover:rounded p-1"
           onClick={() => navigate("/Dashbord")}
         >
           <span>
@@ -72,7 +72,7 @@ export default function LayoutSeeker() {
           Profile
         </div>
         <div
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 hover:bg-[#6CF8BB] hover:rounded p-1"
           onClick={() => navigate("/Dashbord")}
         >
           <span>
@@ -81,7 +81,7 @@ export default function LayoutSeeker() {
           Skills
         </div>
         <div
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 hover:bg-[#6CF8BB] hover:rounded p-1"
           onClick={() => navigate("/Dashbord")}
         >
           <span>
@@ -90,7 +90,7 @@ export default function LayoutSeeker() {
           My CV
         </div>
         <div
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 hover:bg-[#6CF8BB] hover:rounded p-1"
           onClick={() => navigate("/Dashbord")}
         >
           <span>
@@ -103,7 +103,7 @@ export default function LayoutSeeker() {
       sidebar logout
       */}
 
-      <div>
+      <div className="">
         <button onClick={() => navigate("/")}>Logout</button>
       </div>
 
