@@ -9,6 +9,7 @@ import {
   FaLifeRing,
   FaSignOutAlt,
 } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
 {
   /*
      #1E3A8A
@@ -26,15 +27,16 @@ import {
 }
 
 export default function LayoutSeeker() {
+  const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   return (
-    <div className="bg-[#F2F4F6] h-screen w-43 flex flex-col justify-between">
+    <div className="bg-[#F2F4F6] min-h-screen w-50 flex flex-col justify-around">
       {/* 
       sidebar head
       */}
       <div className=" ">
-        <div className="mb-10 text-[#00236F] font-bold p-4">
-          <h1  className="text-[20px] ">VocationalLink</h1>
+        <div className="mb-2 text-[#00236F] font-bold p-4">
+          <h1 className="text-[20px] ">VocationalLink</h1>
         </div>
 
         <div className=" flex flex-row text-sm  ">
@@ -43,8 +45,8 @@ export default function LayoutSeeker() {
             src="https://tse3.mm.bing.net/th/id/OIP.6E59fA0XA6lx8RsJjtAjXwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
           />
           <div className="pl-2">
-            <h1 className="text-[#191C1E] font-bold">Alex Johnson</h1>
-            <p className="text-[#444651]">Product Designer</p>
+            <h1 className="text-[#191C1E] font-bold">{user?.username}</h1>
+            <p className="text-[#444651]">{user?.role}</p>
           </div>
         </div>
       </div>
@@ -52,12 +54,12 @@ export default function LayoutSeeker() {
       sidebar links
       */}
 
-      <nav className=" flex flex-col pl-6 gap-10 mb-8">
+      <nav className=" flex flex-col pl-5 gap-10 mb-4 text-sm">
         <div
           className="flex items-center gap-2 hover:bg-[#6CF8BB] hover:rounded p-1  "
           onClick={() => navigate("/Dashbord")}
         >
-          <span>
+          <span className="text-[#1E3A8A] ">
             <FaChartBar />
           </span>
           Dashbord
@@ -66,8 +68,8 @@ export default function LayoutSeeker() {
           className="flex items-center gap-2 hover:bg-[#6CF8BB] hover:rounded p-1"
           onClick={() => navigate("/Dashbord")}
         >
-          <span>
-            <FaUsers />
+          <span className="text-[#1E3A8A]">
+            <CgProfile />
           </span>
           Profile
         </div>
@@ -75,7 +77,7 @@ export default function LayoutSeeker() {
           className="flex items-center gap-2 hover:bg-[#6CF8BB] hover:rounded p-1"
           onClick={() => navigate("/Dashbord")}
         >
-          <span>
+          <span className="text-[#1E3A8A]">
             <FaCode />
           </span>
           Skills
@@ -84,7 +86,7 @@ export default function LayoutSeeker() {
           className="flex items-center gap-2 hover:bg-[#6CF8BB] hover:rounded p-1"
           onClick={() => navigate("/Dashbord")}
         >
-          <span>
+          <span className="text-[#1E3A8A]">
             <FaUsers />
           </span>
           My CV
@@ -93,7 +95,7 @@ export default function LayoutSeeker() {
           className="flex items-center gap-2 hover:bg-[#6CF8BB] hover:rounded p-1"
           onClick={() => navigate("/Dashbord")}
         >
-          <span>
+          <span className="text-[#1E3A8A]">
             <FaUsers />
           </span>
           Applications
@@ -103,8 +105,11 @@ export default function LayoutSeeker() {
       sidebar logout
       */}
 
-      <div className="">
-        <button onClick={() => navigate("/")}>Logout</button>
+      <div className="flex items-center gap-3 pl-4" onClick={() => navigate("/")}>
+        <span className="text-red-900">
+          <FaSignOutAlt />
+        </span>
+        Sign Out
       </div>
 
       <div className="bg-red-300">
