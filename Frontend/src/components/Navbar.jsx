@@ -1,51 +1,73 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-{
-  /*
-     #1E3A8A
-     #10B981
-     #64748B
-     #F8FAFC
-    */
-}
+export default function Navbar() {
+  const location = useLocation();
 
-function Navbar() {
+  // Function lagu ogaanayo bogga uu taagan yahay si loogu iftiimiyo
+  const isActive = (path) => location.pathname === path;
+
   return (
-    <div className="bg-[#F8FAFC] flex justify-between items-center sticky top-0 z-50  p-4 border border-gray-200">
-      <h2 className="text-[#1E3A8A] font-bold text-xl">VocationalLink</h2>
-      <nav className="flex gap-8 text-[#64748B]  ">
+    <div className="bg-white/80 backdrop-blur-md flex justify-between items-center sticky top-0 z-50 px-8 py-4 border-b border-[#F2F4F6] shadow-sm">
+      
+      {/* BRAND LOGO */}
+      <Link to="/" className="flex items-center gap-2 group">
+        <h2 className="text-[#00236F] font-extrabold text-xl tracking-tight transition-colors group-hover:text-[#1E3A8A]">
+          Vocational<span className="text-[#10B981]">Link</span>
+        </h2>
+      </Link>
+
+      {/* NAVIGATION LINKS */}
+      <nav className="flex items-center gap-8 text-sm font-medium">
         <Link
-          className=" font-bold text-[#1E3A8A] hover:font-bold hover:text-lg"
+          className={`relative py-1 transition-colors duration-200 hover:text-[#00236F] ${
+            isActive("/") ? "text-[#00236F] font-bold" : "text-[#64748B]"
+          }`}
           to="/"
         >
           Home
+          {isActive("/") && (
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#00236F] rounded-full" />
+          )}
         </Link>
-        <Link className="hover:text-[#1E3A8A] hover:font-bold" to="/Messages">
+
+        <Link
+          className={`relative py-1 transition-colors duration-200 hover:text-[#00236F] ${
+            isActive("/Jobs") ? "text-[#00236F] font-bold" : "text-[#64748B]"
+          }`}
+          to="/Jobs" // Waa la saxay path-ka halkii uu ka ahaa /Messages
+        >
           Jobs
         </Link>
-        <Link className="hover:text-[#1E3A8A] hover:font-bold" to="/Explore">
+
+        <Link
+          className={`relative py-1 transition-colors duration-200 hover:text-[#00236F] ${
+            isActive("/Explore-Skills") ? "text-[#00236F] font-bold" : "text-[#64748B]"
+          }`}
+          to="/Explore-Skills"
+        >
           Skills
         </Link>
-        <Link className="hover:text-[#1E3A8A] hover:font-bold" to="/Explore">
+
+        <Link
+          className={`relative py-1 transition-colors duration-200 hover:text-[#00236F] ${
+            isActive("/About") ? "text-[#00236F] font-bold" : "text-[#64748B]"
+          }`}
+          to="/About"
+        >
           About
         </Link>
       </nav>
-      <div className="flex gap-8">
+
+      {/* ACTION BUTTON */}
+      <div className="flex items-center">
         <Link
-          className="bg-[#F8FAFC] py-1 px-6 rounded-full text-[#1E3A8A] font-bold hover:bg-[#F8FAFC] border border-[#1E3A8A] hover:text-[#1E3A8A] hover:px-10 "
+          className="bg-[#00236F] hover:bg-[#1E3A8A] border border-transparent text-white text-sm font-bold py-2 px-6 rounded-lg transition-all duration-300 shadow-sm hover:shadow-md"
           to="/Login"
         >
-          Login
-        </Link>
-        <Link
-          className="bg-[#1E3A8A] py-1 px-6 rounded-full text-[#F8FAFC] font-bold hover:bg-[#F8FAFC] border border-[#10B981] hover:text-[#1E3A8A] hover:px-10 "
-          to="Register"
-        >
-          Register
+          Dashboard
         </Link>
       </div>
+
     </div>
   );
 }
-
-export default Navbar;

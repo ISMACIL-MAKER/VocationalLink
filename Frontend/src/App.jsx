@@ -8,6 +8,8 @@ import Dashoard_employe from "./pages/emmploye-Dashoard";
 import Dashoard_seeker from "./pages/Jop-seeker-Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
+import Profile from "./pages/Profile";
+import LayoutSeeker from "./components/LayoutSeeker";
 
 const App = () => {
   return (
@@ -25,22 +27,25 @@ const App = () => {
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
 
-        <Route
-          path="/emmploye-Dashoard"
-          element={
-            <ProtectedRoute role="Employer">
-              <Dashoard_employe />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/Jop-seeker-Dashboard"
-          element={
-            <ProtectedRoute role="Job-Seeker">
-              <Dashoard_seeker />
-            </ProtectedRoute>
-          }
-        />
+        <Route element={<ProtectedRoute role="Employer" />}>
+          <Route element={<Layout />}>
+            <Route path="/emmploye-Dashoard" element={<Dashoard_employe />} />
+
+            <Route path="/sidebarlinks/Profile" element={<Profile />} />
+          </Route>
+        </Route>
+        {/* 
+        Job-siker
+        */}
+
+        <Route element={<ProtectedRoute role="Job-Seeker" />}>
+          <Route element={<LayoutSeeker />}>
+            <Route path="/Jop-seeker-Dashboard" element={<Dashoard_seeker />} />
+
+            <Route path="/Profile" element={<Profile />} />
+          </Route>
+        </Route>
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>

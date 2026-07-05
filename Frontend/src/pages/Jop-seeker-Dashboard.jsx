@@ -1,153 +1,152 @@
-import LayoutSeeker from "../components/LayoutSeeker";
-
-{
-  /*
-     #1E3A8A
-     #10B981
-     #64748B
-     #F8FAFC
-     #C5C5D3
-     #C5C5D3
-     #FFFFFF
-     #F2F4F6
-     #F2F4F6
-     #191C1E
-     #00236F
-    */
-}
-import { FaGooglePlay } from "react-icons/fa6";
+import { useState } from "react";
+import {
+  FaGooglePlay,
+  FaBriefcase,
+  FaUserClock,
+  FaRegBookmark,
+} from "react-icons/fa6";
 import { IoCalendarClearOutline } from "react-icons/io5";
-import { CiBookmark } from "react-icons/ci";
-const colors = {
-  1: "  #00236F",
-  2: "  #10B981",
-  3: "  #64748B",
-  4: "  #F8FAFC",
-  4: "  #191C1E",
-};
-export default function Dashoard_seeker() {
+
+export default function DashboardSeeker() {
   const user = JSON.parse(localStorage.getItem("user"));
 
-  return (
-    <div className="flex">
-      <div className=" bg-[#F2F4F6]">
-        <LayoutSeeker />
-      </div>
-      <div className="bg-[#F8FAFC] w-screen">
-        <div className="p-5">
-          <h1 className="text-[#1E3A8A] text-2xl font-bold">
-            Welcome back, {user?.username}
-          </h1>
-          <p className="text-[#64748B]">
-            You have 3 new job matches based on your skills.
-          </p>
-        </div>
-        {/* container*/}
-        <div className="flex justify-around gap-10 items-center p-4">
-          {/* ccar 1*/}
-          <div className=" w-60 h-40  flex flex-col justify-between bg-[#FFFFFF] shadow-lg rounded">
-            <div className="p-4  rounded">
-              <span>
-                <FaGooglePlay />
-              </span>
-            </div>
-            <div className="p-4 text-2xl font-bold">
-              <h1>24</h1>
-            </div>
-            <div className="pb-4 pl-4 text-sm text-[#00236F] font-bold">
-              <p>Applications Sent</p>
-            </div>
-          </div>
-          {/* ccar 2*/}
-          <div className=" w-60 h-40  flex flex-col justify-between bg-[#FFFFFF] shadow-lg rounded">
-            <div className="p-4  rounded">
-              <span>
-                <IoCalendarClearOutline />
-              </span>
-            </div>
-            <div className="p-4 text-2xl font-bold">
-              <h1>24</h1>
-            </div>
-            <div className="pb-4 pl-4 text-sm text-[#00236F] font-bold">
-              <p>Interviews Scheduled</p>
-            </div>
-          </div>
-          {/* ccar 3*/}
-          <div className=" w-60 h-40  flex flex-col justify-between bg-[#FFFFFF] shadow-lg rounded">
-            <div className="p-4  rounded">
-              <span className="bg-[#00236F] ">
-                <CiBookmark />
-              </span>
-            </div>
-            <div className="p-4 text-2xl font-bold">
-              <h1>24</h1>
-            </div>
-            <div className="pb-4 pl-4 text-sm text-[#00236F] font-bold">
-              <p>Saved Jobs</p>
-            </div>
-          </div>
-        </div>
-        {/* Recent jop*/}
+  // 1. Stat Cards Data (Xogta kooban ee sare)
+  const stats = [
+    {
+      id: 1,
+      title: "Applications Sent",
+      count: 24,
+      icon: <FaUserClock />,
+      color: "text-blue-600 bg-blue-50",
+    },
+    {
+      id: 2,
+      title: "Interviews Scheduled",
+      count: 3,
+      icon: <IoCalendarClearOutline />,
+      color: "text-emerald-600 bg-emerald-50",
+    },
+    {
+      id: 3,
+      title: "Saved Jobs",
+      count: 12,
+      icon: <FaRegBookmark />,
+      color: "text-amber-600 bg-amber-50",
+    },
+  ];
 
-        <div className="bg-[#F8FAFC] w-full">
-          <div className="p-4">
-            <h1 className="text-[#191C1E] text-lg font-bold">
-              Recent Job Recommendations
-            </h1>
-            <p className="text-[#64748B] text-sm">
-              Tailored matches based on your Product Design skills.
-            </p>
+  // 2. Mock Job Recommendations (Halkan hadhow waxaa fariisan doona xogta backend-ka)
+  const [jobs, setJobs] = useState([
+    {
+      id: 1,
+      title: "Senior UX Designer",
+      company: "NovaStream Technologies",
+      location: "Remote / San Francisco",
+      matchScore: "94%",
+    },
+    {
+      id: 2,
+      title: "Frontend Developer (React)",
+      company: "Ayan Software Solutions",
+      location: "Hargeisa, Somalia",
+      matchScore: "88%",
+    },
+    {
+      id: 3,
+      title: "Product UI Designer",
+      company: "CreativeHub Middle East",
+      location: "Hybrid / Dubai",
+      matchScore: "90%",
+    },
+  ]);
+
+  return (
+    <div className="w-full bg-[#F8FAFC] min-h-screen">
+      {/* HEADER SECTION */}
+      <div className="mb-8">
+        <h1 className="text-[#1E3A8A] text-2xl font-bold tracking-tight">
+          Welcome back, {user?.username || "Ismail Rabiic"} 👋
+        </h1>
+        <p className="text-[#64748B] text-sm mt-1">
+          You have{" "}
+          <span className="text-[#10B981] font-semibold">
+            {jobs.length} new job matches
+          </span>{" "}
+          based on your skills.
+        </p>
+      </div>
+
+      {/* STATS TILES (GRID SYSTEM) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        {stats.map((stat) => (
+          <div
+            key={stat.id}
+            className="bg-white p-6 rounded-xl border border-[#F2F4F6] shadow-sm flex flex-col justify-between h-36 hover:shadow-md transition-all"
+          >
+            <div className={`p-2.5 rounded-lg w-fit ${stat.color} text-lg`}>
+              {stat.icon}
+            </div>
+            <div>
+              <h2 className="text-2xl font-extrabold text-[#191C1E]">
+                {stat.count}
+              </h2>
+              <p className="text-xs text-[#64748B] font-medium mt-1">
+                {stat.title}
+              </p>
+            </div>
           </div>
-            {/* Recent card*/}
-           <div className="flex justify-around gap-10 items-center p-4">
-          {/* ccar 1*/}
-          <div className=" w-60 h-60  flex flex-col justify-between bg-[#FFFFFF] shadow-lg rounded">
-            <div className="p-4  rounded">
-              <span>
-                <FaGooglePlay />
+        ))}
+      </div>
+
+      {/* RECENT JOB RECOMMENDATIONS SECTION */}
+      <div className="mb-6">
+        <h2 className="text-[#191C1E] text-lg font-bold">
+          Recent Job Recommendations
+        </h2>
+        <p className="text-[#64748B] text-xs">
+          Tailored matches calculated by our skill-matching algorithm.
+        </p>
+      </div>
+
+      {/* JOBS CONTAINER (DYNAMIC CONTAINER VIA MAP) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {jobs.map((job) => (
+          <div
+            key={job.id}
+            className="bg-white p-6 rounded-xl border border-[#F2F4F6] shadow-sm flex flex-col justify-between h-64 hover:border-[#00236F] transition-all relative"
+          >
+            {/* Top Row: Company Icon & Match Score */}
+            <div className="flex justify-between items-start">
+              <div className="p-3 bg-[#F2F4F6] text-[#00236F] rounded-lg text-lg">
+                <FaBriefcase />
+              </div>
+              <span className="bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full">
+                {job.matchScore} Match
               </span>
             </div>
-            <div className="p-2 text-lg font-bold">
-              <h1 className="text-[#1E3A8A]">Senior UX Designer</h1>
+
+            {/* Middle Row: Job Titles & Info */}
+            <div className="my-4">
+              <h3
+                className="text-[#1E3A8A] font-bold text-base truncate hover:text-clip"
+                title={job.title}
+              >
+                {job.title}
+              </h3>
+              <p className="text-[#191C1E] text-sm font-medium mt-1">
+                {job.company}
+              </p>
+              <p className="text-[#64748B] text-xs mt-0.5">{job.location}</p>
             </div>
-            <div className="pl-3 tetx-[#C5C5D3]">
-                <p className="">NovaStream Technologies</p>
-                <p>Remote / San Francisco</p>
-            </div>
-            <div className="pb-4 pl-4 text-sm text-[#00236F] font-bold flex items-center">
-              <button className="bg-[#00236F] px-6 py-2 text-white font-bold rounded ">Apply Now</button>
-            </div>
-          </div>
-          {/* ccar 2*/}
-          <div className=" w-60 h-40  flex flex-col justify-between bg-[#FFFFFF] shadow-lg rounded">
-            <div className="p-4  rounded">
-              <span>
-                <IoCalendarClearOutline />
-              </span>
-            </div>
-            <div className="p-4 text-2xl font-bold">
-              <h1>24</h1>
-            </div>
-            <div className="pb-4 pl-4 text-sm text-[#00236F] font-bold">
-              <p>Interviews Scheduled</p>
+
+            {/* Bottom Row: Apply Button */}
+            <div className="w-full pt-2">
+              <button className="w-full bg-[#00236F] hover:bg-[#1E3A8A] text-white text-xs font-bold py-2.5 px-4 rounded-lg transition-colors shadow-sm">
+                Apply Now
+              </button>
             </div>
           </div>
-          {/* ccar 3*/}
-          <div className=" w-60 h-40  flex flex-col justify-between bg-[#FFFFFF] shadow-lg rounded">
-            <div className="p-4  rounded">
-              <span>
-                <CiBookmark />
-              </span>
-            </div>
-            <div className="p-4 text-2xl font-bold">
-              <h1>24</h1>
-            </div>
-            <div className="pb-4 pl-4 text-sm text-[#00236F] font-bold">
-              <p>Saved Jobs</p>
-            </div>
-          </div>
-        </div>
-        </div>
+        ))}
       </div>
     </div>
   );
