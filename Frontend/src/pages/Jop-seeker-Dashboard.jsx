@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaGooglePlay,
   FaBriefcase,
@@ -6,9 +6,17 @@ import {
   FaRegBookmark,
 } from "react-icons/fa6";
 import { IoCalendarClearOutline } from "react-icons/io5";
+import { fetchJobs } from "../features/JopSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function DashboardSeeker() {
   const user = JSON.parse(localStorage.getItem("user"));
+  const dispatch = useDispatch();
+  const { jobs, loading, error } = useSelector((state) => state.JOP);
+
+  useEffect(() => {
+    dispatch(fetchJobs());
+  }, [dispatch]);
 
   // 1. Stat Cards Data (Xogta kooban ee sare)
   const stats = [
@@ -34,31 +42,6 @@ export default function DashboardSeeker() {
       color: "text-amber-600 bg-amber-50",
     },
   ];
-
-  // 2. Mock Job Recommendations (Halkan hadhow waxaa fariisan doona xogta backend-ka)
-  const [jobs, setJobs] = useState([
-    {
-      id: 1,
-      title: "Senior UX Designer",
-      company: "NovaStream Technologies",
-      location: "Remote / San Francisco",
-      matchScore: "94%",
-    },
-    {
-      id: 2,
-      title: "Frontend Developer (React)",
-      company: "Ayan Software Solutions",
-      location: "Hargeisa, Somalia",
-      matchScore: "88%",
-    },
-    {
-      id: 3,
-      title: "Product UI Designer",
-      company: "CreativeHub Middle East",
-      location: "Hybrid / Dubai",
-      matchScore: "90%",
-    },
-  ]);
 
   return (
     <div className="w-full bg-[#F8FAFC] min-h-screen">
@@ -121,7 +104,7 @@ export default function DashboardSeeker() {
                 <FaBriefcase />
               </div>
               <span className="bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full">
-                {job.matchScore} Match
+                {job.matchScore}%
               </span>
             </div>
 
@@ -136,7 +119,12 @@ export default function DashboardSeeker() {
               <p className="text-[#191C1E] text-sm font-medium mt-1">
                 {job.company}
               </p>
+
               <p className="text-[#64748B] text-xs mt-0.5">{job.location}</p>
+              <p className="text-[#191C1E] text-sm font-medium mt-1">
+                <br />
+                {job.Description}
+              </p>
             </div>
 
             {/* Bottom Row: Apply Button */}
