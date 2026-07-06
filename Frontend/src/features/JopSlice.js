@@ -16,6 +16,35 @@ export const fetchJobs = createAsyncThunk("JOP/getJop", async (_, thunkApi) => {
   }
 });
 
+// features/JopSlice.js dhexdiisa ku dar:
+export const createJob = createAsyncThunk(
+  "JOP/createJob",
+  async (jobData, thunkAPI) => {
+    try {
+      //  SAX: Fetch halkan dhibicda laga saaray, waxaana lagu daray Method, Headers, iyo Body
+      const response = await fetch("http://localhost:5000/api/Jop/ADDJOP", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jobData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Waa lagu guuldareystay in shaqada la dhajiyo.",
+        );
+      }
+
+      //  SAX: Fetch xogta wuxuu ku soo celiyaa 'data' toos ah ee ma aha response.data
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
 
 const JopSlice = createSlice({
   name: "JOP",
@@ -40,25 +69,25 @@ const JopSlice = createSlice({
         // SAX: Haddii rejectWithValue la isticmaalo, xogtu waxay timaadaa action.payload
         state.error = action.payload || action.error.message;
       })
-      .addCase(applyForJob.pending, (state) => {
-        state.applyLoading = true; // Waxaa loo beddelay applyLoading si uusan shaashadda dhan u loading gareyn
+      // --- CREATE JOB CASES ---
+      .addCase(createJob.pending, (state) => {
+        state.loading = true;
         state.error = null;
+        state.success = false;
       })
-      .addCase(applyForJob.fulfilled, (state, action) => {
-        state.applyLoading = false;
+      .addCase(createJob.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
 
-        // SAX: Halkan state.jobs looma taabanayo si aan nidaamku u crash-garoobin.
-        // Haddii aad rabto inaad shaqada la codsaday calaamad u yeesho, waxaad update gareyn kartaa array-ga:
-        const index = state.jobs.findIndex(
-          (job) => job._id === action.payload.jobId,
-        );
-        if (index !== -1) {
-          // Tusaale: Waxaad ku dari kartaa boolean si aad u ogaato in hore loo codsaday
-          state.jobs[index].hasApplied = true;
+        if (action.payload && action.payload.job) {
+          state.jobs.push(action.payload.job);
+        } else {
+          state.jobs.push(action.payload);
         }
       })
-      .addCase(applyForJob.rejected, (state, action) => {
-        state.applyLoading = false;
+      .addCase(createJob.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
         state.error = action.payload || action.error.message;
       });
   },

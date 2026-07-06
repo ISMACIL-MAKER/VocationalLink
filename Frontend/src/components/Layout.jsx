@@ -50,7 +50,7 @@ export default function Layout() {
                   ? "bg-[#F2F4F6] text-[#00236F] font-bold"
                   : "text-[#64748B] hover:bg-[#F2F4F6] hover:text-[#191C1E]"
               }`}
-              onClick={() => navigate("/Jop-seeker-Dashboard")}
+              onClick={() => navigate("/emmploye-Dashoard")}
             >
               <FaChartBar className="text-[#1E3A8A] text-base" />
               Dashboard
@@ -62,10 +62,10 @@ export default function Layout() {
                   ? "bg-[#F2F4F6] text-[#00236F] font-bold"
                   : "text-[#64748B] hover:bg-[#F2F4F6] hover:text-[#191C1E]"
               }`}
-              onClick={() => navigate("")}
+              onClick={() => navigate("/PostJob")}
             >
               <CgProfile className="text-[#1E3A8A] text-lg" />
-              Profile
+              Post Jop
             </button>
 
             <button

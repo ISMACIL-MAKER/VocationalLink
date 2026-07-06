@@ -11,6 +11,7 @@ import Layout from "./components/Layout";
 import Profile from "./pages/Profile";
 import LayoutSeeker from "./components/LayoutSeeker";
 import Applications from "./pages/Applications";
+import PostJop from "./pages/PostJob";
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
             <Route path="/emmploye-Dashoard" element={<Dashoard_employe />} />
 
             <Route path="/sidebarlinks/Profile" element={<Profile />} />
+            <Route path="/PostJob" element={<PostJop />} />
           </Route>
         </Route>
         {/* 
