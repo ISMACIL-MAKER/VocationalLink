@@ -4,7 +4,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import User from "./models/User.js";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
+import Jop from "./models/Jop.js";
 
 dotenv.config();
 const app = express();
@@ -15,7 +16,7 @@ app.use(cors());
 app.get("/teste", (req, res) => {
   res.json("hellow");
 });
-
+// auth login and register
 app.post("/api/User/register", async (req, res) => {
   try {
     const { username, password, email, role } = req.body;
@@ -27,10 +28,10 @@ app.post("/api/User/register", async (req, res) => {
     if (existe) {
       return res.status(400).json({ message: "Email already exists." });
     }
-    const hashedpassword= await bcrypt.hash(password,10);
+    const hashedpassword = await bcrypt.hash(password, 10);
     const NewUser = await User.create({
       username,
-      password:hashedpassword,
+      password: hashedpassword,
       email: email.toLowerCase(),
       role,
     });
@@ -52,7 +53,7 @@ app.post("/api/User/register", async (req, res) => {
 app.post("/api/User/Login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password ) {
+    if (!email || !password) {
       return res
         .status(400)
         .json({ message: "Fadlan geli email iyo password" });
@@ -68,12 +69,13 @@ app.post("/api/User/Login", async (req, res) => {
       return res.status(400).json({ message: "password and email ma jero" });
     }
 
-    const Token=jwt.sign(
+    const Token = jwt.sign(
       {
-        id:user._id, role:user.role
+        id: user._id,
+        role: user.role,
       },
       process.env.JWT_SECRET,
-      {expiresIn:"7d"}
+      { expiresIn: "7d" },
     );
 
     return res.status(200).json({
@@ -91,6 +93,46 @@ app.post("/api/User/Login", async (req, res) => {
       message: "Server error while logging in.",
       error: error.message,
     });
+  }
+});
+//Jop post
+
+app.post("/api/Jop/ADDJOP", async (req, res) => {
+  try {
+    const { title, company, matchScore, location, Description } = req.body;
+    if (!title || !company || !matchScore) {
+      res.status(400).json({ message: "xogta buxi " });
+    }
+    const NewJop = await Jop.create({
+      title,
+      company,
+      matchScore,
+      location,
+      Description,
+    });
+
+    res.status(200).json({
+      message: "wala diwan galeyey",
+      NewJop: {
+        id: req.id,
+        title: NewJop.title,
+        matchScore: NewJop.matchScore,
+        location: NewJop.location,
+        Description: NewJop.Description,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+//get jop
+app.get("/api/Jop/recentJop", async (req, res) => {
+  try {
+    const AllJop = await Jop.find({ id: req.id }).sort({ createdAt: -1 });
+    res.status(200).json(AllJop);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 });
 
