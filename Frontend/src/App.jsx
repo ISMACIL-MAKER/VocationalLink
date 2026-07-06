@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
 import Profile from "./pages/Profile";
 import LayoutSeeker from "./components/LayoutSeeker";
+import Applications from "./pages/Applications";
 
 const App = () => {
   return (
@@ -43,6 +44,7 @@ const App = () => {
             <Route path="/Jop-seeker-Dashboard" element={<Dashoard_seeker />} />
 
             <Route path="/Profile" element={<Profile />} />
+            <Route path="/Applications" element={<Applications />} />
           </Route>
         </Route>
 

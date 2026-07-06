@@ -6,7 +6,7 @@ import {
   FaRegBookmark,
 } from "react-icons/fa6";
 import { IoCalendarClearOutline } from "react-icons/io5";
-import { fetchJobs } from "../features/JopSlice";
+import {  fetchJobs } from "../features/JopSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function DashboardSeeker() {
@@ -14,9 +14,13 @@ export default function DashboardSeeker() {
   const dispatch = useDispatch();
   const { jobs, loading, error } = useSelector((state) => state.JOP);
 
+  const Jops = jobs?.length || 0;
+
   useEffect(() => {
     dispatch(fetchJobs());
   }, [dispatch]);
+
+  
 
   // 1. Stat Cards Data (Xogta kooban ee sare)
   const stats = [
@@ -95,7 +99,7 @@ export default function DashboardSeeker() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {jobs.map((job) => (
           <div
-            key={job.id}
+            key={job._id}
             className="bg-white p-6 rounded-xl border border-[#F2F4F6] shadow-sm flex flex-col justify-between h-64 hover:border-[#00236F] transition-all relative"
           >
             {/* Top Row: Company Icon & Match Score */}
@@ -129,7 +133,7 @@ export default function DashboardSeeker() {
 
             {/* Bottom Row: Apply Button */}
             <div className="w-full pt-2">
-              <button className="w-full bg-[#00236F] hover:bg-[#1E3A8A] text-white text-xs font-bold py-2.5 px-4 rounded-lg transition-colors shadow-sm">
+            <button className="w-full bg-[#00236F] hover:bg-[#1E3A8A] text-white text-xs font-bold py-2.5 px-4 rounded-lg transition-colors shadow-sm">
                 Apply Now
               </button>
             </div>
