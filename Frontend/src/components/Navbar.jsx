@@ -17,7 +17,7 @@ export default function Navbar() {
       </Link>
 
       {/* NAVIGATION LINKS */}
-      <nav className="flex items-center gap-8 text-sm font-medium">
+      <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
         <Link
           className={`relative py-1 transition-colors duration-200 hover:text-[#00236F] ${
             isActive("/") ? "text-[#00236F] font-bold" : "text-[#64748B]"
@@ -30,41 +30,30 @@ export default function Navbar() {
           )}
         </Link>
 
-        <Link
-          className={`relative py-1 transition-colors duration-200 hover:text-[#00236F] ${
-            isActive("/Jobs") ? "text-[#00236F] font-bold" : "text-[#64748B]"
-          }`}
-          to="/Jobs" // Waa la saxay path-ka halkii uu ka ahaa /Messages
-        >
-          Jobs
-        </Link>
-
-        <Link
-          className={`relative py-1 transition-colors duration-200 hover:text-[#00236F] ${
-            isActive("/Explore-Skills") ? "text-[#00236F] font-bold" : "text-[#64748B]"
-          }`}
-          to="/Explore-Skills"
-        >
-          Skills
-        </Link>
-
-        <Link
-          className={`relative py-1 transition-colors duration-200 hover:text-[#00236F] ${
-            isActive("/About") ? "text-[#00236F] font-bold" : "text-[#64748B]"
-          }`}
-          to="/About"
-        >
-          About
-        </Link>
+        <a className="text-[#64748B] hover:text-[#00236F] transition-colors" href="#features">
+          Features
+        </a>
+        <a className="text-[#64748B] hover:text-[#00236F] transition-colors" href="#how-it-works">
+          How it Works
+        </a>
+        <a className="text-[#64748B] hover:text-[#00236F] transition-colors" href="#footer">
+          Contact
+        </a>
       </nav>
 
       {/* ACTION BUTTON */}
-      <div className="flex items-center">
+      <div className="flex items-center gap-3">
+        <Link
+          className="text-[#00236F] text-sm font-semibold py-2 px-4 rounded-lg hover:bg-[#F2F4F6] transition-all"
+          to="/Register"
+        >
+          Register
+        </Link>
         <Link
           className="bg-[#00236F] hover:bg-[#1E3A8A] border border-transparent text-white text-sm font-bold py-2 px-6 rounded-lg transition-all duration-300 shadow-sm hover:shadow-md"
           to="/Login"
         >
-          Dashboard
+          Login
         </Link>
       </div>
 

@@ -24,6 +24,30 @@ const userSchema= new mongoose.Schema(
             enum:["Job-Seeker","Employer"],
             default:"Job-Seeker"
         },
+        skills: {
+            type: [String],
+            default: []
+        },
+        profileImage: {
+            type: String,
+            default: ""
+        },
+        bio: {
+            type: String,
+            default: ""
+        },
+        cvName: {
+            type: String,
+            default: ""
+        },
+        cvFile: {
+            type: String,
+            default: ""
+        },
+        hiddenJobs: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Jop"
+        }],
 
       
     },

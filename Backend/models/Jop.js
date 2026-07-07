@@ -7,6 +7,11 @@ const Jopschema = new mongoose.Schema(
       ref: "User",
       require: true,
     },
+    employerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     title: {
       type: String,
       require: true,

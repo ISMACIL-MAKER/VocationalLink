@@ -8,10 +8,11 @@ import Dashoard_employe from "./pages/emmploye-Dashoard";
 import Dashoard_seeker from "./pages/Jop-seeker-Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
-import Profile from "./pages/Profile";
 import LayoutSeeker from "./components/LayoutSeeker";
 import Applications from "./pages/Applications";
 import PostJop from "./pages/PostJob";
+import SeekerProfile from "./pages/SeekerProfile";
+import EmployerProfile from "./pages/EmployerProfile";
 
 const App = () => {
   return (
@@ -33,7 +34,7 @@ const App = () => {
           <Route element={<Layout />}>
             <Route path="/emmploye-Dashoard" element={<Dashoard_employe />} />
 
-            <Route path="/sidebarlinks/Profile" element={<Profile />} />
+            <Route path="/employer-profile" element={<EmployerProfile />} />
             <Route path="/PostJob" element={<PostJop />} />
           </Route>
         </Route>
@@ -45,7 +46,7 @@ const App = () => {
           <Route element={<LayoutSeeker />}>
             <Route path="/Jop-seeker-Dashboard" element={<Dashoard_seeker />} />
 
-            <Route path="/Profile" element={<Profile />} />
+            <Route path="/seeker-profile" element={<SeekerProfile />} />
             <Route path="/Applications" element={<Applications />} />
           </Route>
         </Route>

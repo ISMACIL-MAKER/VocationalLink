@@ -1,16 +1,45 @@
-import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
   FaChartBar,
-  FaUsers,
   FaCode,
   FaSignOutAlt,
+  FaBell,
 } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 
 export default function Layout() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [currentUser, setCurrentUser] = useState(
+    JSON.parse(localStorage.getItem("user")),
+  );
   const navigate = useNavigate();
   const location = useLocation(); // Si aan u ogaano bogga uu taagan yahay oo aan u 'active' gareyno link-ga
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    const fetchUnread = async () => {
+      if (!currentUser?.id) return;
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/Notification/${currentUser.id}`,
+        );
+        const data = await response.json();
+        if (!response.ok) return;
+        setUnreadCount(data.filter((item) => !item.read).length);
+      } catch {
+        // ignore silent errors
+      }
+    };
+    fetchUnread();
+  }, [currentUser?.id]);
+
+  useEffect(() => {
+    const refreshUser = () => {
+      setCurrentUser(JSON.parse(localStorage.getItem("user")));
+    };
+    window.addEventListener("profile-updated", refreshUser);
+    return () => window.removeEventListener("profile-updated", refreshUser);
+  }, []);
 
   // Function lagu hubinayo bogga uu isticmaalahu taagan yahay si loogu iftiimiyo
   const isActive = (path) => location.pathname === path;
@@ -33,12 +62,19 @@ export default function Layout() {
           <div className="flex items-center gap-3 p-2 bg-[#F8FAFC] rounded-lg border border-[#F2F4F6]">
             <img
               className="w-10 h-10 rounded-full object-cover border border-[#C5C5D3]"
-              src="https://tse3.mm.bing.net/th/id/OIP.6E59fA0XA6lx8RsJjtAjXwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
+              src={
+                currentUser?.profileImage ||
+                "https://tse3.mm.bing.net/th/id/OIP.6E59fA0XA6lx8RsJjtAjXwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
+              }
               alt="Profile"
             />
             <div className="truncate">
-              <h1 className="text-[#191C1E] font-bold text-sm truncate">{user?.username || "Ismail Rabiic"}</h1>
-              <p className="text-[#64748B] text-xs capitalize">{user?.role || "Job Seeker"}</p>
+              <h1 className="text-[#191C1E] font-bold text-sm truncate">
+                {currentUser?.username || "Ismail Rabiic"}
+              </h1>
+              <p className="text-[#64748B] text-xs capitalize">
+                {currentUser?.role || "Job Seeker"}
+              </p>
             </div>
           </div>
 
@@ -46,7 +82,7 @@ export default function Layout() {
           <nav className="flex flex-col gap-2 mt-4">
             <button
               className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                isActive("/Jop-seeker-Dashboard")
+                isActive("/emmploye-Dashoard")
                   ? "bg-[#F2F4F6] text-[#00236F] font-bold"
                   : "text-[#64748B] hover:bg-[#F2F4F6] hover:text-[#191C1E]"
               }`}
@@ -58,50 +94,41 @@ export default function Layout() {
 
             <button
               className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                isActive("")
+                isActive("/employer-profile")
+                  ? "bg-[#F2F4F6] text-[#00236F] font-bold"
+                  : "text-[#64748B] hover:bg-[#F2F4F6] hover:text-[#191C1E]"
+              }`}
+              onClick={() => navigate("/employer-profile")}
+            >
+              <CgProfile className="text-[#1E3A8A] text-lg" />
+              Profile
+            </button>
+
+            <button
+              className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                isActive("/PostJob")
                   ? "bg-[#F2F4F6] text-[#00236F] font-bold"
                   : "text-[#64748B] hover:bg-[#F2F4F6] hover:text-[#191C1E]"
               }`}
               onClick={() => navigate("/PostJob")}
             >
-              <CgProfile className="text-[#1E3A8A] text-lg" />
-              Post Jop
-            </button>
-
-            <button
-              className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                isActive("/Skills")
-                  ? "bg-[#F2F4F6] text-[#00236F] font-bold"
-                  : "text-[#64748B] hover:bg-[#F2F4F6] hover:text-[#191C1E]"
-              }`}
-              onClick={() => navigate("/Skills")}
-            >
               <FaCode className="text-[#1E3A8A] text-base" />
-              Skills
+              Post Job
             </button>
 
             <button
-              className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                isActive("/My_CV")
-                  ? "bg-[#F2F4F6] text-[#00236F] font-bold"
-                  : "text-[#64748B] hover:bg-[#F2F4F6] hover:text-[#191C1E]"
-              }`}
-              onClick={() => navigate("/My_CV")}
+              className="flex items-center justify-between gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-[#64748B] hover:bg-[#F2F4F6] hover:text-[#191C1E] transition-all"
+              onClick={() => navigate("/emmploye-Dashoard")}
             >
-              <FaUsers className="text-[#1E3A8A] text-base" />
-              My CV
-            </button>
-
-            <button
-              className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                isActive("/Applications")
-                  ? "bg-[#F2F4F6] text-[#00236F] font-bold"
-                  : "text-[#64748B] hover:bg-[#F2F4F6] hover:text-[#191C1E]"
-              }`}
-              onClick={() => navigate("/Applications")}
-            >
-              <FaUsers className="text-[#1E3A8A] text-base" />
-              Applications
+              <span className="flex items-center gap-3">
+                <FaBell className="text-[#1E3A8A] text-base" />
+                Notifications
+              </span>
+              {unreadCount > 0 && (
+                <span className="bg-red-600 text-white text-[10px] font-bold rounded-full min-w-5 h-5 px-1 flex items-center justify-center">
+                  {unreadCount}
+                </span>
+              )}
             </button>
           </nav>
         </div>

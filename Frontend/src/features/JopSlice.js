@@ -46,6 +46,30 @@ export const createJob = createAsyncThunk(
   },
 );
 
+export const deleteJob = createAsyncThunk(
+  "JOP/deleteJob",
+  async ({ jobId, requesterId, role }, thunkAPI) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/Jop/${jobId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ requesterId, role }),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to delete job.");
+      }
+
+      return { jobId };
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
+
 const JopSlice = createSlice({
   name: "JOP",
   initialState: {
@@ -88,6 +112,18 @@ const JopSlice = createSlice({
       .addCase(createJob.rejected, (state, action) => {
         state.loading = false;
         state.success = false;
+        state.error = action.payload || action.error.message;
+      })
+      .addCase(deleteJob.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteJob.fulfilled, (state, action) => {
+        state.loading = false;
+        state.jobs = state.jobs.filter((job) => job._id !== action.payload.jobId);
+      })
+      .addCase(deleteJob.rejected, (state, action) => {
+        state.loading = false;
         state.error = action.payload || action.error.message;
       });
   },

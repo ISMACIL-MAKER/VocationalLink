@@ -26,9 +26,11 @@ export default function PostJop() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const user = JSON.parse(localStorage.getItem("user"));
+    const payload = { ...formData, employerId: user?.id };
 
     // 3. U dir xogta Redux Thunk-ga
-    const result = await dispatch(createJob(formData));
+    const result = await dispatch(createJob(payload));
 
     if (createJob.fulfilled.match(result)) {
       alert("Shaqada si guul leh ayaa loo dhajiyey! 🎉");
