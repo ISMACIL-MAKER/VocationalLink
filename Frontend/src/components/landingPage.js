@@ -25,3 +25,6 @@ do{
         console.log(count +count)
         i++
     }while(count<=5)
+
+        let greeting="hello"
+        console,log(greeting)
