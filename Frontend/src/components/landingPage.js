@@ -35,3 +35,12 @@ do{
         }else{
             console.log(unkown)
         }
+
+        let numbers=[10,20,23,99.88]
+        for(let number of numbers){
+            if(number % 2===0){
+                console,log(number +" even number")
+            }else{
+                console.log(number + " odd number")
+            }
+        }
