@@ -19,3 +19,9 @@ do{
     console.log(y)
     i++
 }while(y<=4)
+
+    let name= Count;
+    do{
+        console.log(count +count)
+        i++
+    }while(count<=5)
