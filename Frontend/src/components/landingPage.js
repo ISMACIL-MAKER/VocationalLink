@@ -28,3 +28,10 @@ do{
 
         let greeting="hello"
         console,log(greeting)
+
+        let role="admin"
+        if (role===admin || role===user){
+            console.log("welcome")
+        }else{
+            console.log(unkown)
+        }
