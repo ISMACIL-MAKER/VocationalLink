@@ -27,7 +27,7 @@ do{
     }while(count<=5)
 
         let greeting="hello"
-        console,log(greeting)
+        console.log(greeting)
 
         let role="admin"
         if (role===admin || role===user){

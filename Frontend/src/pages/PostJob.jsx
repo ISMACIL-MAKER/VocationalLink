@@ -70,7 +70,7 @@ export default function PostJop() {
                   value={formData.title}
                   onChange={handleChange}
                   required
-                  placeholder="e.g., Full Stack Developer"
+                  placeholder=""
                   className="w-full pl-10 pr-4 py-2.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:border-[#00236F] transition-colors"
                 />
               </div>
@@ -88,7 +88,7 @@ export default function PostJop() {
                   value={formData.company}
                   onChange={handleChange}
                   required
-                  placeholder="e.g., VocationalLink"
+                  placeholder=""
                   className="w-full pl-10 pr-4 py-2.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:border-[#00236F] transition-colors"
                 />
               </div>
@@ -129,7 +129,7 @@ export default function PostJop() {
                   value={formData.location}
                   onChange={handleChange}
                   required
-                  placeholder="e.g., Hargeisa, Somalia"
+                  placeholder=""
                   className="w-full pl-10 pr-4 py-2.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:border-[#00236F] transition-colors"
                 />
               </div>
