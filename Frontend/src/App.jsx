@@ -13,6 +13,7 @@ import Applications from "./pages/Applications";
 import PostJop from "./pages/PostJob";
 import SeekerProfile from "./pages/SeekerProfile";
 import EmployerProfile from "./pages/EmployerProfile";
+import Landepage from "./components/Landepage-main";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
             <>
               <Navbar />
               <Home />
+              <Landepage/>
             </>
           }
         />

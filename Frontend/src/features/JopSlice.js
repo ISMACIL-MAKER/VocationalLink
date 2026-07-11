@@ -1,5 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+
+
+export const recentJop=createAsyncThunk("JOP/recentJop",async(_,thunkAPI)=>{
+       try {
+        const response= await fetch("http://localhost:5000/api/Jop/recentJop")
+        
+    if (!response.ok) {
+      throw new Error("Xogta la soo dhaami kari waayey!");
+    }
+
+     const data= await response.json();
+     return data;
+       } catch (error) {
+         return thunkApi.rejectWithValue(error.message);
+       }
+});
+
+
+
+
+
+
 // 1. SAX: Waxaa lagu daray createAsyncThunk oo ka maqnaa
 export const fetchJobs = createAsyncThunk("JOP/getJop", async (_, thunkApi) => {
   try {
@@ -125,6 +147,15 @@ const JopSlice = createSlice({
       .addCase(deleteJob.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || action.error.message;
+      }).addCase(recentJop.pending,(state,action)=>{
+        state.loading=true;
+        state.error=null;
+      }).addCase(recentJop.fulfilled,(state,action)=>{
+        state.loading=false;
+        state.jobs=action.payload
+      }).addCase(recentJop.rejected,(state,action)=>{
+        state.loading=false;
+        state.error=action.payload || action.Error.message;
       });
   },
 });
