@@ -43,11 +43,9 @@ do{
             }else{
                 console.log(number + " odd number")
             }
-        }
+ 
+        console.log("hhhhhh");
 
-
-
-        console.log("iii");
 
 
         
