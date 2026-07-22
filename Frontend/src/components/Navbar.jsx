@@ -1,7 +1,9 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
 
 export default function Navbar() {
   const location = useLocation();
+  const navigate =useNavigate();
 
   // Function lagu ogaanayo bogga uu taagan yahay si loogu iftiimiyo
   const isActive = (path) => location.pathname === path;
@@ -30,7 +32,7 @@ export default function Navbar() {
           )}
         </Link>
 
-        <a className="text-[#64748B] hover:text-[#00236F] transition-colors" href="#features">
+        <a className="text-[#64748B] hover:text-[#00236F] transition-colors" href="#features" onClick={()=> navigate("/CategoriesSection")}>
           Features
         </a>
         <a className="text-[#64748B] hover:text-[#00236F] transition-colors" href="#how-it-works">
