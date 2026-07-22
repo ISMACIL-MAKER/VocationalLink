@@ -14,6 +14,10 @@ import PostJop from "./pages/PostJob";
 import SeekerProfile from "./pages/SeekerProfile";
 import EmployerProfile from "./pages/EmployerProfile";
 import Landepage from "./components/Landepage-main";
+import CategoriesSection from "./components/CategoriesSection";
+import TrustSection from "./components/TrustSection";
+import CTASection from "./components/CTASection";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -26,6 +30,10 @@ const App = () => {
               <Navbar />
               <Home />
               <Landepage/>
+              <CategoriesSection/>
+              <TrustSection/>
+              <CTASection/>
+              <Footer/>
             </>
           }
         />
