@@ -6,7 +6,7 @@ export default function CategoriesSection() {
       title: "Construction",
       desc: "Carpenters, masonry, and infrastructure specialists in Maroodi-Jeex & Togdheer.",
       count: "1,240 Openings",
-      icon: <FaDraftingCompass />,
+      icon: <FaDraftingCompass />
     },
     {
       title: "Plumbing",
