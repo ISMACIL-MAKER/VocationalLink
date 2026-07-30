@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser, clearAuthError } from "../features/authSlice";
+import { DASHBOARD_BY_ROLE } from "../constants/roles";
 
 export default function Register() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     role: "Job-Seeker",
   });
-
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -23,47 +24,19 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
-    setSuccess("");
+    dispatch(clearAuthError());
 
-    try {
-      const response = await fetch("http://localhost:5000/api/User/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-          role: formData.role,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Waxbaa khaldamay intii lagu guda jiray iska diiwaangelinta.");
-      }
-
-      setSuccess("Account-ka si guul leh ayaa loo abuuray! 🎉");
-
-      setTimeout(() => {
-        navigate("/Login");
-      }, 1500);
-
-    } catch (error) {
-      setError(error.message || "Cilad ayaa dhacday!");
-    } finally {
-      setLoading(false); // Dami loading-ka mar walba oo shaqadu dhamaato
+    const result = await dispatch(registerUser(formData));
+    if (registerUser.fulfilled.match(result)) {
+      const role = result.payload.user.role;
+      navigate(DASHBOARD_BY_ROLE[role] || "/");
     }
   };
 
   return (
     <div className="bg-[#F8FAFC] h-screen flex justify-center items-center p-4">
       <div className="w-full max-w-md bg-[#FFFFFF] shadow-2xl border border-[#F2F4F6] rounded-2xl p-8 transition-all">
-        
+
         {/* HEADER SECTION */}
         <div className="flex flex-col items-center mb-6">
           <h2 className="text-[#00236F] font-extrabold text-2xl tracking-tight mb-2">
@@ -77,15 +50,10 @@ export default function Register() {
           </p>
         </div>
 
-        {/* FARRIIMAHA CILADDA AMA GUUSHA */}
+        {/* FARRIIMAHA CILADDA */}
         {error && (
           <div className="bg-red-50 text-red-600 p-3 rounded-xl mb-4 text-xs font-semibold text-center border border-red-100">
             ⚠️ {error}
-          </div>
-        )}
-        {success && (
-          <div className="bg-green-50 text-green-600 p-3 rounded-xl mb-4 text-xs font-semibold text-center border border-green-100">
-            ✅ {success}
           </div>
         )}
 
@@ -132,10 +100,10 @@ export default function Register() {
 
           <div>
             <label className="text-[#191C1E] text-sm font-bold block mb-1">Account Type ⬇️</label>
-            <select 
-              name="role" 
-              value={formData.role} 
-              onChange={handleChange} 
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
               className="border p-2.5 bg-[#F2F4F6] rounded-xl text-[#1E3A8A] font-bold w-full focus:outline-none focus:ring-1 focus:ring-[#00236F]"
             >
               <option value="Job-Seeker">Job Seeker</option>
@@ -143,7 +111,7 @@ export default function Register() {
             </select>
           </div>
 
-          <button 
+          <button
             disabled={loading}
             type="submit"
             className="w-full bg-[#00236F] hover:bg-[#1E3A8A] disabled:bg-[#C5C5D3] text-white font-bold py-3 px-4 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg mt-2 flex justify-center items-center gap-2"

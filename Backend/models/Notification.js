@@ -15,6 +15,22 @@ const notificationSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    type: {
+      type: String,
+      enum: [
+        "application_status",
+        "new_application",
+        "verification",
+        "payment",
+        "message",
+        "system",
+      ],
+      default: "system",
+    },
+    link: {
+      type: String,
+      default: "",
+    },
     read: {
       type: Boolean,
       default: false,

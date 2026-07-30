@@ -1,59 +1,129 @@
-import { FaWrench, FaBolt, FaDraftingCompass, FaFillDrip, FaArrowRight } from "react-icons/fa";
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  FaBolt,
+  FaTint,
+  FaTshirt,
+  FaLaptopCode,
+  FaHammer,
+  FaCarSide,
+  FaTools,
+  FaFireAlt,
+  FaTruck,
+  FaEllipsisH,
+  FaArrowRight,
+  FaChevronLeft,
+  FaChevronRight,
+} from "react-icons/fa";
+import { fetchPublicStats } from "../features/statsSlice";
+
+const CATEGORY_ICONS = {
+  Electrician: FaBolt,
+  Plumber: FaTint,
+  Tailor: FaTshirt,
+  "IT Technician": FaLaptopCode,
+  Carpenter: FaHammer,
+  Mechanic: FaCarSide,
+  Mason: FaTools,
+  Welder: FaFireAlt,
+  Driver: FaTruck,
+  Other: FaEllipsisH,
+};
 
 export default function CategoriesSection() {
-  const categories = [
-    {
-      title: "Construction",
-      desc: "Carpenters, masonry, and infrastructure specialists in Maroodi-Jeex & Togdheer.",
-      count: "1,240 Openings",
-      icon: <FaDraftingCompass />,
-    },
-    {
-      title: "Plumbing",
-      desc: "Certified master plumbers for residential and commercial systems.",
-      count: "850 Openings",
-      icon: <FaFillDrip />,
-    },
-    {
-      title: "Electrician",
-      desc: "Expert electrical contractors and high-voltage technicians.",
-      count: "960 Openings",
-      icon: <FaBolt />,
-    },
-    {
-      title: "Welding",
-      desc: "TIG, MIG, and arc welding specialists for heavy industry projects.",
-      count: "430 Openings",
-      icon: <FaWrench />,
-    },
-  ];
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const scrollRef = useRef(null);
+  const { categoryCounts, loading } = useSelector((state) => state.stats);
+
+  useEffect(() => {
+    if (!categoryCounts.length) {
+      dispatch(fetchPublicStats());
+    }
+  }, [dispatch, categoryCounts.length]);
+
+  const scrollBy = (amount) => {
+    scrollRef.current?.scrollBy({ left: amount, behavior: "smooth" });
+  };
+
+  const goToCategory = (category) => {
+    navigate(`/jobs?category=${encodeURIComponent(category)}`);
+  };
 
   return (
     <div className="bg-[#F8FAFC] py-16 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h2 className="text-2xl font-bold text-[#00236F]">Explore Featured Categories</h2>
-            <p className="text-xs text-[#64748B] mt-1">Find specialized talent across core vocational sectors in Somaliland.</p>
+            <h2 className="text-2xl font-bold text-[#00236F]">Explore Vocational Categories</h2>
+            <p className="text-xs text-[#64748B] mt-1">
+              Find specialized talent across core vocational sectors in Somaliland.
+            </p>
           </div>
-          <a href="#" className="text-[#00236F] text-xs font-bold flex items-center gap-2 hover:underline">
-            Browse all categories <FaArrowRight />
-          </a>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              aria-label="Scroll left"
+              onClick={() => scrollBy(-320)}
+              className="p-2 rounded-full border border-[#F2F4F6] text-[#00236F] hover:bg-[#F2F4F6] transition-colors"
+            >
+              <FaChevronLeft />
+            </button>
+            <button
+              type="button"
+              aria-label="Scroll right"
+              onClick={() => scrollBy(320)}
+              className="p-2 rounded-full border border-[#F2F4F6] text-[#00236F] hover:bg-[#F2F4F6] transition-colors"
+            >
+              <FaChevronRight />
+            </button>
+            <button
+              onClick={() => navigate("/jobs")}
+              className="text-[#00236F] text-xs font-bold flex items-center gap-2 hover:underline"
+            >
+              Browse all jobs <FaArrowRight />
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {categories.map((cat, idx) => (
-            <div key={idx} className="bg-white p-6 rounded-2xl border border-[#F2F4F6] shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-56">
-              <div>
-                <div className="p-3 bg-[#F2F4F6] text-[#00236F] rounded-xl w-fit text-lg mb-4">
-                  {cat.icon}
-                </div>
-                <h3 className="text-[#00236F] font-bold text-base">{cat.title}</h3>
-                <p className="text-[#64748B] text-xs mt-2 line-clamp-2">{cat.desc}</p>
-              </div>
-              <span className="text-[#10B981] font-semibold text-xs mt-4">{cat.count}</span>
-            </div>
-          ))}
+        <div
+          ref={scrollRef}
+          className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {(loading ? Array.from({ length: 4 }) : categoryCounts).map((entry, idx) => {
+            const category = entry?.category;
+            const Icon = CATEGORY_ICONS[category] || FaEllipsisH;
+
+            return (
+              <button
+                key={category || idx}
+                onClick={() => category && goToCategory(category)}
+                disabled={loading}
+                className="snap-start shrink-0 w-56 bg-white p-6 rounded-2xl border border-[#F2F4F6] shadow-sm hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-48 text-left"
+              >
+                {loading ? (
+                  <div className="animate-pulse flex flex-col gap-3">
+                    <div className="h-10 w-10 rounded-xl bg-[#F2F4F6]" />
+                    <div className="h-4 w-2/3 bg-[#F2F4F6] rounded" />
+                    <div className="h-3 w-1/2 bg-[#F2F4F6] rounded" />
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <div className="p-3 bg-[#F2F4F6] text-[#00236F] rounded-xl w-fit text-lg mb-4">
+                        <Icon />
+                      </div>
+                      <h3 className="text-[#00236F] font-bold text-base">{category}</h3>
+                    </div>
+                    <span className="text-[#10B981] font-semibold text-xs mt-4">
+                      {entry.count} Open Position{entry.count === 1 ? "" : "s"}
+                    </span>
+                  </>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

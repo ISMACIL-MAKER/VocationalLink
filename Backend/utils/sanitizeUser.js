@@ -1,0 +1,18 @@
+export const sanitizeUser = (user) => ({
+  id: user._id,
+  username: user.username,
+  email: user.email,
+  role: user.role,
+  phone: user.phone || "",
+  preferredLanguage: user.preferredLanguage || "so",
+  status: user.status,
+  skills: user.skills || [],
+  profileImage: user.profileImage || "",
+  bio: user.bio || "",
+  cvName: user.cvName || "",
+  cvFile: user.cvFile || "",
+  hiddenJobs: user.hiddenJobs || [],
+  seekerProfile: user.seekerProfile,
+  employerProfile: user.employerProfile,
+  createdAt: user.createdAt,
+});

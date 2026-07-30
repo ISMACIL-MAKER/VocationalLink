@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser, clearAuthError } from "../features/authSlice";
+import { DASHBOARD_BY_ROLE } from "../constants/roles";
 
 export default function Login() {
-  const navigate = useNavigate(); // Badhanka weyn 'navigate' variable-ka xaraf yar ka dhig
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,45 +19,19 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
-    
-    try {
-      const response = await fetch("http://localhost:5000/api/User/Login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    dispatch(clearAuthError());
 
-      const data = await response.json(); // Magaca xaraf yar ka dhig 'data' si uu u n someeyo clean code
-
-      if (!response.ok) {
-        throw new Error(data.message || "Email ama Password khaldan!");
-      }
-
-      localStorage.setItem("token", data.Token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
-      // Toos u kala hage doorka isticmaalaha (Role-Based Routing)
-      if (data.user.role === "Job-Seeker") {
-        navigate("/Jop-seeker-Dashboard");
-      } else if (data.user.role === "Employer") {
-        navigate("/emmploye-Dashoard");
-      }
-   
-    } catch (error) {
-      setError(error.message || "Cilad ayaa dhacday intii lagu guda jiray login-ka");
-    } finally {
-      setLoading(false); // Had iyo jeer dami loading-ka marka shaqadu dhamaato
+    const result = await dispatch(loginUser(formData));
+    if (loginUser.fulfilled.match(result)) {
+      const role = result.payload.user.role;
+      navigate(DASHBOARD_BY_ROLE[role] || "/");
     }
   };
 
   return (
     <div className="bg-[#F8FAFC] h-screen flex justify-center items-center p-4">
       <div className="w-full max-w-md bg-[#FFFFFF] shadow-2xl border border-[#F2F4F6] rounded-2xl p-8 transition-all">
-        
+
         {/* HEADER SECTION */}
         <div className="flex flex-col items-center mb-8">
           <h2 className="text-[#00236F] font-extrabold text-2xl tracking-tight mb-2">
@@ -108,8 +85,8 @@ export default function Login() {
             />
           </div>
 
-          <button 
-            disabled={loading} 
+          <button
+            disabled={loading}
             type="submit"
             className="w-full bg-[#00236F] hover:bg-[#1E3A8A] disabled:bg-[#C5C5D3] text-white font-bold py-3 px-4 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg mt-2 flex justify-center items-center gap-2"
           >

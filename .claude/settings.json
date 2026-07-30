@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx eslint *)",
+      "Bash(node --check server.js)",
+      "Bash(taskkill //F //IM node.exe)",
+      "Bash(node -e ' *)",
+      "Bash(npm run *)",
+      "Bash(node --check controllers/adminController.js)",
+      "Bash(node --check routes/adminRoutes.js)",
+      "Read(//c/Users/KAAFIYE ELECTRONICS/OneDrive/Desktop/**)",
+      "PowerShell(powershell -NoProfile -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\KAAFIY~1\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-KAAFIYE-ELECTRONICS-OneDrive-Desktop-VocationalLink\\\\dfa4300c-5040-4e4d-bfc6-2fd3569ac518\\\\scratchpad\\\\build-gantt.ps1\" 2>&1)"
+    ]
+  }
+}
