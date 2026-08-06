@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FaPlus, FaTrash, FaCreditCard, FaBriefcase } from "react-icons/fa";
 import { deleteEmployerJob } from "../../features/employerSlice";
@@ -15,17 +16,26 @@ const JOB_STATUS_LABELS = {
 };
 
 const JOB_STATUS_STYLES = {
-  draft: "bg-[#F2F4F6] text-[#64748B] border-[#E2E8F0]",
+  draft: "bg-surface-alt text-text-secondary border-border",
   pending_payment: "bg-amber-50 text-amber-700 border-amber-200",
   active: "bg-emerald-50 text-emerald-700 border-emerald-200",
-  closed: "bg-[#F2F4F6] text-[#64748B] border-[#E2E8F0]",
+  closed: "bg-surface-alt text-text-secondary border-border",
   expired: "bg-red-50 text-red-700 border-red-200",
 };
 
 export default function JobManagementTab() {
   const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { jobs, jobsLoading } = useSelector((state) => state.employer);
-  const [showPostModal, setShowPostModal] = useState(false);
+  const [showPostModal, setShowPostModal] = useState(() => searchParams.get("new") === "1");
+
+  // Consume the one-shot "?new=1" deep link (from the sidebar's Post Job
+  // item) by stripping it from the URL — doesn't touch local component state.
+  if (searchParams.get("new") === "1") {
+    searchParams.delete("new");
+    setSearchParams(searchParams, { replace: true });
+  }
+
   const [paymentJob, setPaymentJob] = useState(null);
 
   const handleDelete = (jobId) => {
@@ -37,21 +47,21 @@ export default function JobManagementTab() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-[#191C1E] font-bold text-lg">Job Management</h2>
-          <p className="text-xs text-[#64748B]">
+          <h2 className="text-text font-bold text-lg">Job Management</h2>
+          <p className="text-xs text-text-secondary">
             Post new roles and manage payment activation for each listing.
           </p>
         </div>
         <button
           onClick={() => setShowPostModal(true)}
-          className="bg-[#00236F] hover:bg-[#1E3A8A] text-white font-bold text-sm px-5 py-2.5 rounded-lg flex items-center gap-2"
+          className="bg-primary hover:bg-primary-dark text-white font-bold text-sm px-5 py-2.5 rounded-lg flex items-center gap-2"
         >
           <FaPlus /> Post New Job
         </button>
       </div>
 
       {jobsLoading ? (
-        <p className="text-sm text-[#64748B]">Loading your jobs...</p>
+        <p className="text-sm text-text-secondary">Loading your jobs...</p>
       ) : jobs.length === 0 ? (
         <EmptyState
           icon={FaBriefcase}
@@ -63,12 +73,12 @@ export default function JobManagementTab() {
           {jobs.map((job) => (
             <div
               key={job._id}
-              className="bg-white border border-[#F2F4F6] rounded-xl p-5 shadow-sm hover:shadow-md transition-all"
+              className="bg-surface border border-border rounded-xl p-5 shadow-sm hover:shadow-md transition-all"
             >
               <div className="flex justify-between items-start gap-3">
                 <div className="min-w-0">
-                  <h3 className="font-bold text-[#191C1E] text-sm truncate">{job.title}</h3>
-                  <p className="text-xs text-[#64748B] mt-0.5 truncate">
+                  <h3 className="font-bold text-text text-sm truncate">{job.title}</h3>
+                  <p className="text-xs text-text-secondary mt-0.5 truncate">
                     {job.location} • {job.category}
                   </p>
                 </div>
@@ -81,7 +91,7 @@ export default function JobManagementTab() {
                 </span>
               </div>
 
-              <p className="text-xs text-[#94A3B8] mt-3">
+              <p className="text-xs text-text-secondary mt-3">
                 {job.applicantCount || 0} applicant(s) • Posted{" "}
                 {new Date(job.createdAt).toLocaleDateString()}
               </p>

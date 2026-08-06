@@ -54,14 +54,14 @@ export default function JobSearch() {
   };
 
   return (
-    <div className="bg-[#F8FAFC] min-h-screen">
-      <div className="bg-white border-b border-[#F2F4F6] py-10 px-6">
+    <div className="bg-surface-alt min-h-screen">
+      <div className="bg-surface border-b border-border py-10 px-6">
         <div className="max-w-6xl mx-auto flex flex-col items-center gap-6 text-center">
           <div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-[#00236F]">
+            <h1 className="text-2xl md:text-3xl font-extrabold text-primary">
               Find Your Next Vocational Role
             </h1>
-            <p className="text-[#64748B] text-sm mt-2">
+            <p className="text-text-secondary text-sm mt-2">
               Browse verified job openings across all Somaliland regions.
             </p>
           </div>
@@ -95,7 +95,7 @@ export default function JobSearch() {
           />
         ) : (
           <>
-            <p className="text-[#64748B] text-xs mb-4">
+            <p className="text-text-secondary text-xs mb-4">
               {publicPagination.total} job{publicPagination.total === 1 ? "" : "s"} found
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -110,26 +110,26 @@ export default function JobSearch() {
                   <Link
                     to={`/jobs/${job._id}`}
                     key={job._id}
-                    className="bg-white p-6 rounded-2xl border border-[#F2F4F6] shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-56"
+                    className="bg-surface p-6 rounded-2xl border border-border shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-56"
                   >
                     <div>
-                      <span className="inline-block bg-[#F2F4F6] text-[#00236F] text-[10px] font-bold px-2.5 py-1 rounded-full mb-3">
+                      <span className="inline-block bg-surface-alt text-primary text-[10px] font-bold px-2.5 py-1 rounded-full mb-3">
                         {job.category}
                       </span>
-                      <h3 className="text-[#191C1E] font-bold text-base line-clamp-2">
+                      <h3 className="text-text font-bold text-base line-clamp-2">
                         {job.title}
                       </h3>
-                      <p className="text-[#64748B] text-xs mt-1">{companyName}</p>
+                      <p className="text-text-secondary text-xs mt-1">{companyName}</p>
                     </div>
-                    <div className="flex items-center justify-between text-xs text-[#64748B]">
+                    <div className="flex items-center justify-between text-xs text-text-secondary">
                       <span className="flex items-center gap-1.5">
-                        <FaMapMarkerAlt className="text-[#00236F]" />
+                        <FaMapMarkerAlt className="text-primary" />
                         {job.region !== "Other"
                           ? REGION_LABELS[job.region] || job.region
                           : job.location}
                       </span>
                       <span className="flex items-center gap-1.5">
-                        <FaBriefcase className="text-[#00236F]" />
+                        <FaBriefcase className="text-primary" />
                         {job.employmentType}
                       </span>
                     </div>
@@ -143,17 +143,17 @@ export default function JobSearch() {
                 <button
                   disabled={page <= 1}
                   onClick={() => goToPage(page - 1)}
-                  className="px-4 py-2 rounded-lg border border-[#E2E8F0] text-sm font-semibold text-[#00236F] disabled:opacity-40 hover:bg-[#F2F4F6] transition-colors"
+                  className="px-4 py-2 rounded-lg border border-border text-sm font-semibold text-primary disabled:opacity-40 hover:bg-surface-alt transition-colors"
                 >
                   Previous
                 </button>
-                <span className="text-xs text-[#64748B]">
+                <span className="text-xs text-text-secondary">
                   Page {publicPagination.page} of {publicPagination.totalPages}
                 </span>
                 <button
                   disabled={page >= publicPagination.totalPages}
                   onClick={() => goToPage(page + 1)}
-                  className="px-4 py-2 rounded-lg border border-[#E2E8F0] text-sm font-semibold text-[#00236F] disabled:opacity-40 hover:bg-[#F2F4F6] transition-colors"
+                  className="px-4 py-2 rounded-lg border border-border text-sm font-semibold text-primary disabled:opacity-40 hover:bg-surface-alt transition-colors"
                 >
                   Next
                 </button>

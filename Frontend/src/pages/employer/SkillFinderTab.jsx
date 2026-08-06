@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FaSearch, FaCheckCircle, FaMapMarkerAlt } from "react-icons/fa";
 import { searchTalent } from "../../features/employerSlice";
@@ -24,10 +25,14 @@ const DEFAULT_FILTERS = {
 
 export default function SkillFinderTab() {
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
   const { talentResults, talentPagination, talentLoading } = useSelector(
     (state) => state.employer,
   );
-  const [filters, setFilters] = useState(DEFAULT_FILTERS);
+  const [filters, setFilters] = useState({
+    ...DEFAULT_FILTERS,
+    skillName: searchParams.get("skillName") || "",
+  });
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
 
@@ -48,29 +53,36 @@ export default function SkillFinderTab() {
     runSearch(filters, 1);
   };
 
+  useEffect(() => {
+    if (searchParams.get("skillName")) {
+      runSearch({ ...DEFAULT_FILTERS, skillName: searchParams.get("skillName") }, 1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div>
       <div className="mb-6">
-        <h2 className="text-[#191C1E] font-bold text-lg">Vocational Skill Finder</h2>
-        <p className="text-xs text-[#64748B]">
+        <h2 className="text-text font-bold text-lg">Vocational Skill Finder</h2>
+        <p className="text-xs text-text-secondary">
           Search verified local technicians by skill, proficiency, region, and availability.
         </p>
       </div>
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white border border-[#F2F4F6] rounded-2xl p-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8"
+        className="bg-surface border border-border rounded-2xl p-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8"
       >
         <input
           value={filters.skillName}
           onChange={(e) => setFilters({ ...filters, skillName: e.target.value })}
           placeholder="Skill keyword..."
-          className="border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm lg:col-span-2"
+          className="border border-border rounded-lg px-3 py-2 text-sm lg:col-span-2"
         />
         <select
           value={filters.category}
           onChange={(e) => setFilters({ ...filters, category: e.target.value })}
-          className="border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+          className="border border-border rounded-lg px-3 py-2 text-sm"
         >
           <option value="All">All Categories</option>
           {VOCATIONAL_CATEGORIES.map((c) => (
@@ -82,7 +94,7 @@ export default function SkillFinderTab() {
         <select
           value={filters.proficiency}
           onChange={(e) => setFilters({ ...filters, proficiency: e.target.value })}
-          className="border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm capitalize"
+          className="border border-border rounded-lg px-3 py-2 text-sm capitalize"
         >
           <option value="All">Any Proficiency</option>
           {PROFICIENCY_LEVELS.map((p) => (
@@ -94,7 +106,7 @@ export default function SkillFinderTab() {
         <select
           value={filters.region}
           onChange={(e) => setFilters({ ...filters, region: e.target.value })}
-          className="border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+          className="border border-border rounded-lg px-3 py-2 text-sm"
         >
           <option value="All">All Regions</option>
           {SOMALILAND_REGIONS.map((r) => (
@@ -106,7 +118,7 @@ export default function SkillFinderTab() {
         <select
           value={filters.availability}
           onChange={(e) => setFilters({ ...filters, availability: e.target.value })}
-          className="border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm capitalize"
+          className="border border-border rounded-lg px-3 py-2 text-sm capitalize"
         >
           <option value="All">Any Availability</option>
           {AVAILABILITY_OPTIONS.map((a) => (
@@ -116,7 +128,7 @@ export default function SkillFinderTab() {
           ))}
         </select>
 
-        <label className="flex items-center gap-2 text-xs font-semibold text-[#191C1E] lg:col-span-3">
+        <label className="flex items-center gap-2 text-xs font-semibold text-text lg:col-span-3">
           <input
             type="checkbox"
             checked={filters.verifiedOnly}
@@ -127,7 +139,7 @@ export default function SkillFinderTab() {
         <button
           type="submit"
           disabled={talentLoading}
-          className="bg-[#00236F] hover:bg-[#1E3A8A] disabled:bg-[#94A3B8] text-white font-bold px-6 py-2 rounded-lg text-sm lg:col-span-3"
+          className="bg-primary hover:bg-primary-dark disabled:bg-border disabled:text-text-secondary text-white font-bold px-6 py-2 rounded-lg text-sm lg:col-span-3"
         >
           {talentLoading ? "Searching..." : "Search Talent"}
         </button>
@@ -153,7 +165,7 @@ export default function SkillFinderTab() {
         />
       ) : (
         <>
-          <p className="text-[#64748B] text-xs mb-4">
+          <p className="text-text-secondary text-xs mb-4">
             {talentPagination.total} candidate(s) found
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -161,7 +173,7 @@ export default function SkillFinderTab() {
               <button
                 key={candidate._id}
                 onClick={() => setSelectedCandidate(candidate)}
-                className="text-left bg-white p-6 rounded-2xl border border-[#F2F4F6] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                className="text-left bg-surface p-6 rounded-2xl border border-border shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="flex items-center gap-3 mb-3">
                   <img
@@ -170,11 +182,11 @@ export default function SkillFinderTab() {
                       "https://tse3.mm.bing.net/th/id/OIP.6E59fA0XA6lx8RsJjtAjXwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
                     }
                     alt={candidate.username}
-                    className="w-12 h-12 rounded-full object-cover border border-[#F2F4F6]"
+                    className="w-12 h-12 rounded-full object-cover border border-border"
                   />
                   <div>
-                    <h3 className="font-bold text-[#191C1E] text-sm">{candidate.username}</h3>
-                    <p className="text-xs text-[#64748B] flex items-center gap-1">
+                    <h3 className="font-bold text-text text-sm">{candidate.username}</h3>
+                    <p className="text-xs text-text-secondary flex items-center gap-1">
                       <FaMapMarkerAlt />{" "}
                       {REGION_LABELS[candidate.seekerProfile?.region] ||
                         candidate.seekerProfile?.region}
@@ -182,13 +194,13 @@ export default function SkillFinderTab() {
                   </div>
                 </div>
                 {candidate.bio && (
-                  <p className="text-xs text-[#64748B] line-clamp-2 mb-3">{candidate.bio}</p>
+                  <p className="text-xs text-text-secondary line-clamp-2 mb-3">{candidate.bio}</p>
                 )}
                 <div className="flex flex-wrap gap-1.5">
                   {(candidate.seekerProfile?.skills || []).slice(0, 4).map((skill) => (
                     <span
                       key={skill._id}
-                      className="text-[10px] font-semibold bg-[#F2F4F6] text-[#00236F] px-2 py-0.5 rounded-full flex items-center gap-1"
+                      className="text-[10px] font-semibold bg-surface-alt text-primary px-2 py-0.5 rounded-full flex items-center gap-1"
                     >
                       {skill.skillName}
                       {skill.certificates?.some(
@@ -197,7 +209,7 @@ export default function SkillFinderTab() {
                     </span>
                   ))}
                 </div>
-                <p className="text-[10px] text-[#94A3B8] mt-3 capitalize">
+                <p className="text-[10px] text-text-secondary mt-3 capitalize">
                   {candidate.seekerProfile?.availability?.replace("_", " ")}
                 </p>
               </button>
@@ -209,17 +221,17 @@ export default function SkillFinderTab() {
               <button
                 disabled={talentPagination.page <= 1}
                 onClick={() => runSearch(filters, talentPagination.page - 1)}
-                className="px-4 py-2 rounded-lg border border-[#E2E8F0] text-sm font-semibold text-[#00236F] disabled:opacity-40"
+                className="px-4 py-2 rounded-lg border border-border text-sm font-semibold text-primary disabled:opacity-40"
               >
                 Previous
               </button>
-              <span className="text-xs text-[#64748B]">
+              <span className="text-xs text-text-secondary">
                 Page {talentPagination.page} of {talentPagination.totalPages}
               </span>
               <button
                 disabled={talentPagination.page >= talentPagination.totalPages}
                 onClick={() => runSearch(filters, talentPagination.page + 1)}
-                className="px-4 py-2 rounded-lg border border-[#E2E8F0] text-sm font-semibold text-[#00236F] disabled:opacity-40"
+                className="px-4 py-2 rounded-lg border border-border text-sm font-semibold text-primary disabled:opacity-40"
               >
                 Next
               </button>

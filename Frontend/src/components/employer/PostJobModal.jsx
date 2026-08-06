@@ -35,7 +35,7 @@ function StepProgress({ step }) {
         <div key={s.id} className="flex items-center gap-2 flex-1">
           <div
             className={`h-1.5 flex-1 rounded-full ${
-              s.id <= step ? "bg-[#00236F]" : "bg-[#E2E8F0]"
+              s.id <= step ? "bg-primary" : "bg-border"
             }`}
           />
           {idx < STEPS.length - 1 && <span className="sr-only" />}
@@ -109,9 +109,9 @@ export default function PostJobModal({ isOpen, onClose, onPosted }) {
   return (
     <Modal isOpen={isOpen} onClose={resetAndClose} title="Post a New Job" maxWidth="max-w-2xl">
       <StepProgress step={step} />
-      <div className="flex justify-between text-[10px] font-bold text-[#64748B] uppercase tracking-wide mb-4 -mt-4">
+      <div className="flex justify-between text-[10px] font-bold text-text-secondary uppercase tracking-wide mb-4 -mt-4">
         {STEPS.map((s) => (
-          <span key={s.id} className={s.id === step ? "text-[#00236F]" : ""}>
+          <span key={s.id} className={s.id === step ? "text-primary" : ""}>
             {s.label}
           </span>
         ))}
@@ -127,37 +127,37 @@ export default function PostJobModal({ isOpen, onClose, onPosted }) {
         {step === 1 && (
           <>
             <div>
-              <label className="text-xs font-semibold text-[#191C1E] block mb-1">
+              <label className="text-xs font-semibold text-text block mb-1">
                 Job Title
               </label>
               <input
                 value={form.title}
                 onChange={(e) => setForm({ ...form, title: e.target.value })}
-                className="w-full border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+                className="w-full border border-border rounded-lg px-3 py-2 text-sm"
               />
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-[#191C1E] block mb-1">
+              <label className="text-xs font-semibold text-text block mb-1">
                 Description
               </label>
               <textarea
                 rows={3}
                 value={form.description}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
-                className="w-full border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+                className="w-full border border-border rounded-lg px-3 py-2 text-sm"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-semibold text-[#191C1E] block mb-1">
+                <label className="text-xs font-semibold text-text block mb-1">
                   Category
                 </label>
                 <select
                   value={form.category}
                   onChange={(e) => setForm({ ...form, category: e.target.value })}
-                  className="w-full border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+                  className="w-full border border-border rounded-lg px-3 py-2 text-sm"
                 >
                   {VOCATIONAL_CATEGORIES.map((c) => (
                     <option key={c} value={c}>
@@ -167,13 +167,13 @@ export default function PostJobModal({ isOpen, onClose, onPosted }) {
                 </select>
               </div>
               <div>
-                <label className="text-xs font-semibold text-[#191C1E] block mb-1">
+                <label className="text-xs font-semibold text-text block mb-1">
                   Employment Type
                 </label>
                 <select
                   value={form.employmentType}
                   onChange={(e) => setForm({ ...form, employmentType: e.target.value })}
-                  className="w-full border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm capitalize"
+                  className="w-full border border-border rounded-lg px-3 py-2 text-sm capitalize"
                 >
                   {EMPLOYMENT_TYPES.map((t) => (
                     <option key={t} value={t}>
@@ -190,13 +190,13 @@ export default function PostJobModal({ isOpen, onClose, onPosted }) {
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-semibold text-[#191C1E] block mb-1">
+                <label className="text-xs font-semibold text-text block mb-1">
                   Region
                 </label>
                 <select
                   value={form.region}
                   onChange={(e) => setForm({ ...form, region: e.target.value })}
-                  className="w-full border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+                  className="w-full border border-border rounded-lg px-3 py-2 text-sm"
                 >
                   {SOMALILAND_REGIONS.map((r) => (
                     <option key={r} value={r}>
@@ -206,21 +206,21 @@ export default function PostJobModal({ isOpen, onClose, onPosted }) {
                 </select>
               </div>
               <div>
-                <label className="text-xs font-semibold text-[#191C1E] block mb-1">
+                <label className="text-xs font-semibold text-text block mb-1">
                   Location (site/city detail)
                 </label>
                 <input
                   value={form.location}
                   onChange={(e) => setForm({ ...form, location: e.target.value })}
                   placeholder="e.g. Downtown Hargeisa"
-                  className="w-full border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+                  className="w-full border border-border rounded-lg px-3 py-2 text-sm"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="text-xs font-semibold text-[#191C1E] block mb-1">
+                <label className="text-xs font-semibold text-text block mb-1">
                   Salary Min
                 </label>
                 <input
@@ -228,11 +228,11 @@ export default function PostJobModal({ isOpen, onClose, onPosted }) {
                   min="0"
                   value={form.salaryMin}
                   onChange={(e) => setForm({ ...form, salaryMin: e.target.value })}
-                  className="w-full border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+                  className="w-full border border-border rounded-lg px-3 py-2 text-sm"
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold text-[#191C1E] block mb-1">
+                <label className="text-xs font-semibold text-text block mb-1">
                   Salary Max
                 </label>
                 <input
@@ -240,17 +240,17 @@ export default function PostJobModal({ isOpen, onClose, onPosted }) {
                   min="0"
                   value={form.salaryMax}
                   onChange={(e) => setForm({ ...form, salaryMax: e.target.value })}
-                  className="w-full border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+                  className="w-full border border-border rounded-lg px-3 py-2 text-sm"
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold text-[#191C1E] block mb-1">
+                <label className="text-xs font-semibold text-text block mb-1">
                   Currency
                 </label>
                 <select
                   value={form.currency}
                   onChange={(e) => setForm({ ...form, currency: e.target.value })}
-                  className="w-full border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+                  className="w-full border border-border rounded-lg px-3 py-2 text-sm"
                 >
                   <option value="USD">USD</option>
                   <option value="SLSH">SLSH</option>
@@ -259,7 +259,7 @@ export default function PostJobModal({ isOpen, onClose, onPosted }) {
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-[#191C1E] block mb-1">
+              <label className="text-xs font-semibold text-text block mb-1">
                 Required Skills
               </label>
               <div className="flex gap-2">
@@ -273,12 +273,12 @@ export default function PostJobModal({ isOpen, onClose, onPosted }) {
                     }
                   }}
                   placeholder="e.g. Residential Wiring"
-                  className="flex-1 border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+                  className="flex-1 border border-border rounded-lg px-3 py-2 text-sm"
                 />
                 <button
                   type="button"
                   onClick={handleAddSkill}
-                  className="px-4 py-2 rounded-lg bg-[#F2F4F6] text-[#00236F] text-sm font-semibold"
+                  className="px-4 py-2 rounded-lg bg-surface-alt text-primary text-sm font-semibold"
                 >
                   Add
                 </button>
@@ -308,18 +308,18 @@ export default function PostJobModal({ isOpen, onClose, onPosted }) {
         {step === 3 && (
           <>
             <div>
-              <label className="text-xs font-semibold text-[#191C1E] block mb-1">
+              <label className="text-xs font-semibold text-text block mb-1">
                 Application Deadline (optional)
               </label>
               <input
                 type="date"
                 value={form.applicationDeadline}
                 onChange={(e) => setForm({ ...form, applicationDeadline: e.target.value })}
-                className="w-full border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+                className="w-full border border-border rounded-lg px-3 py-2 text-sm"
               />
             </div>
 
-            <div className="bg-[#F8FAFC] rounded-xl p-4 text-xs text-[#334155] space-y-1.5">
+            <div className="bg-surface-alt rounded-xl p-4 text-xs text-text space-y-1.5">
               <p>
                 <span className="font-bold">{form.title}</span> — {form.category},{" "}
                 {form.employmentType.replace("-", " ")}
@@ -333,7 +333,7 @@ export default function PostJobModal({ isOpen, onClose, onPosted }) {
                 </p>
               )}
               {requiredSkills.length > 0 && <p>Skills: {requiredSkills.join(", ")}</p>}
-              <p className="text-[#94A3B8] pt-1">
+              <p className="text-text-secondary pt-1">
                 Your job will be created as <strong>Pending Payment</strong> — you'll submit a
                 Zaad/eDahab reference next to activate it.
               </p>
@@ -346,7 +346,7 @@ export default function PostJobModal({ isOpen, onClose, onPosted }) {
             <button
               type="button"
               onClick={goBack}
-              className="px-5 py-2.5 rounded-xl text-sm font-bold text-[#00236F] bg-[#F2F4F6]"
+              className="px-5 py-2.5 rounded-xl text-sm font-bold text-primary bg-surface-alt"
             >
               Back
             </button>
@@ -358,7 +358,7 @@ export default function PostJobModal({ isOpen, onClose, onPosted }) {
             <button
               type="button"
               onClick={goNext}
-              className="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-[#00236F] hover:bg-[#1E3A8A]"
+              className="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-primary hover:bg-primary-dark"
             >
               Next
             </button>
@@ -366,7 +366,7 @@ export default function PostJobModal({ isOpen, onClose, onPosted }) {
             <button
               type="submit"
               disabled={jobsLoading}
-              className="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-[#00236F] hover:bg-[#1E3A8A] disabled:bg-[#94A3B8]"
+              className="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-primary hover:bg-primary-dark disabled:bg-border disabled:text-text-secondary"
             >
               {jobsLoading ? "Posting..." : "Post Job"}
             </button>

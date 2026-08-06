@@ -52,12 +52,12 @@ export default function CategoriesSection() {
   };
 
   return (
-    <div className="bg-[#F8FAFC] py-16 px-6">
+    <div className="bg-surface-alt py-16 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h2 className="text-2xl font-bold text-[#00236F]">Explore Vocational Categories</h2>
-            <p className="text-xs text-[#64748B] mt-1">
+            <h2 className="text-2xl font-bold text-primary">Explore Vocational Categories</h2>
+            <p className="text-xs text-text-secondary mt-1">
               Find specialized talent across core vocational sectors in Somaliland.
             </p>
           </div>
@@ -66,7 +66,7 @@ export default function CategoriesSection() {
               type="button"
               aria-label="Scroll left"
               onClick={() => scrollBy(-320)}
-              className="p-2 rounded-full border border-[#F2F4F6] text-[#00236F] hover:bg-[#F2F4F6] transition-colors"
+              className="p-2 rounded-full border border-border text-primary hover:bg-surface-alt transition-colors"
             >
               <FaChevronLeft />
             </button>
@@ -74,13 +74,13 @@ export default function CategoriesSection() {
               type="button"
               aria-label="Scroll right"
               onClick={() => scrollBy(320)}
-              className="p-2 rounded-full border border-[#F2F4F6] text-[#00236F] hover:bg-[#F2F4F6] transition-colors"
+              className="p-2 rounded-full border border-border text-primary hover:bg-surface-alt transition-colors"
             >
               <FaChevronRight />
             </button>
             <button
               onClick={() => navigate("/jobs")}
-              className="text-[#00236F] text-xs font-bold flex items-center gap-2 hover:underline"
+              className="text-primary text-xs font-bold flex items-center gap-2 hover:underline"
             >
               Browse all jobs <FaArrowRight />
             </button>
@@ -100,23 +100,23 @@ export default function CategoriesSection() {
                 key={category || idx}
                 onClick={() => category && goToCategory(category)}
                 disabled={loading}
-                className="snap-start shrink-0 w-56 bg-white p-6 rounded-2xl border border-[#F2F4F6] shadow-sm hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-48 text-left"
+                className="snap-start shrink-0 w-56 bg-surface p-6 rounded-2xl border border-border shadow-sm hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-48 text-left"
               >
                 {loading ? (
                   <div className="animate-pulse flex flex-col gap-3">
-                    <div className="h-10 w-10 rounded-xl bg-[#F2F4F6]" />
-                    <div className="h-4 w-2/3 bg-[#F2F4F6] rounded" />
-                    <div className="h-3 w-1/2 bg-[#F2F4F6] rounded" />
+                    <div className="h-10 w-10 rounded-xl bg-surface-alt" />
+                    <div className="h-4 w-2/3 bg-surface-alt rounded" />
+                    <div className="h-3 w-1/2 bg-surface-alt rounded" />
                   </div>
                 ) : (
                   <>
                     <div>
-                      <div className="p-3 bg-[#F2F4F6] text-[#00236F] rounded-xl w-fit text-lg mb-4">
+                      <div className="p-3 bg-surface-alt text-primary rounded-xl w-fit text-lg mb-4">
                         <Icon />
                       </div>
-                      <h3 className="text-[#00236F] font-bold text-base">{category}</h3>
+                      <h3 className="text-primary font-bold text-base">{category}</h3>
                     </div>
-                    <span className="text-[#10B981] font-semibold text-xs mt-4">
+                    <span className="text-success font-semibold text-xs mt-4">
                       {entry.count} Open Position{entry.count === 1 ? "" : "s"}
                     </span>
                   </>

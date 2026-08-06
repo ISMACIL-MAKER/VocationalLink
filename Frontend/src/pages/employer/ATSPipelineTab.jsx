@@ -39,14 +39,14 @@ function CandidateCard({ application, onOpen }) {
   return (
     <div
       onClick={() => onOpen(application._id)}
-      className="w-full text-left bg-white border border-[#F2F4F6] rounded-xl p-4 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+      className="w-full text-left bg-surface border border-border rounded-xl p-4 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <h4 className="font-bold text-[#191C1E] text-sm truncate">
+          <h4 className="font-bold text-text text-sm truncate">
             {seeker.username || application.seekerName}
           </h4>
-          <p className="text-xs text-[#64748B] mt-0.5 truncate">{application.jobId?.title}</p>
+          <p className="text-xs text-text-secondary mt-0.5 truncate">{application.jobId?.title}</p>
         </div>
         {matchScore !== null && (
           <span className="shrink-0 bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-1 rounded-full">
@@ -56,7 +56,7 @@ function CandidateCard({ application, onOpen }) {
       </div>
 
       {region && (
-        <p className="text-[10px] text-[#64748B] mt-2 flex items-center gap-1">
+        <p className="text-[10px] text-text-secondary mt-2 flex items-center gap-1">
           <FaMapMarkerAlt /> {REGION_LABELS[region] || region}
         </p>
       )}
@@ -66,7 +66,7 @@ function CandidateCard({ application, onOpen }) {
           {skills.slice(0, 3).map((skill) => (
             <span
               key={skill._id}
-              className="text-[10px] font-semibold bg-[#F2F4F6] text-[#00236F] px-2 py-0.5 rounded-full flex items-center gap-1"
+              className="text-[10px] font-semibold bg-surface-alt text-primary px-2 py-0.5 rounded-full flex items-center gap-1"
             >
               {skill.skillName}
               {skill.certificates?.some((c) => c.verificationStatus === "verified") && (
@@ -83,7 +83,7 @@ function CandidateCard({ application, onOpen }) {
           <button
             onClick={handleAdvance}
             title={`Advance to ${nextStage.replace(/_/g, " ")}`}
-            className="text-[10px] font-bold text-[#00236F] hover:underline flex items-center gap-1"
+            className="text-[10px] font-bold text-primary hover:underline flex items-center gap-1"
           >
             Advance <FaArrowRight />
           </button>
@@ -103,7 +103,7 @@ export default function ATSPipelineTab() {
     applications.find((app) => app._id === selectedApplicationId) || null;
 
   if (applicationsLoading) {
-    return <p className="text-sm text-[#64748B]">Loading candidate pipeline...</p>;
+    return <p className="text-sm text-text-secondary">Loading candidate pipeline...</p>;
   }
 
   if (applications.length === 0) {
@@ -124,10 +124,10 @@ export default function ATSPipelineTab() {
           return (
             <div key={column.key} className="w-72 shrink-0">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-xs font-bold text-[#191C1E] uppercase tracking-wide">
+                <h3 className="text-xs font-bold text-text uppercase tracking-wide">
                   {column.label}
                 </h3>
-                <span className="text-[10px] bg-[#F2F4F6] text-[#64748B] font-bold px-2 py-0.5 rounded-full">
+                <span className="text-[10px] bg-surface-alt text-text-secondary font-bold px-2 py-0.5 rounded-full">
                   {columnApps.length}
                 </span>
               </div>
@@ -140,7 +140,7 @@ export default function ATSPipelineTab() {
                   />
                 ))}
                 {columnApps.length === 0 && (
-                  <p className="text-[10px] text-[#94A3B8] italic">No candidates</p>
+                  <p className="text-[10px] text-text-secondary italic">No candidates</p>
                 )}
               </div>
             </div>

@@ -36,7 +36,7 @@ export default function EmployerApprovalTab() {
   };
 
   if (employersLoading) {
-    return <p className="text-sm text-[#64748B]">Loading employer queue...</p>;
+    return <p className="text-sm text-text-secondary">Loading employer queue...</p>;
   }
 
   if (employers.length === 0) {
@@ -55,18 +55,18 @@ export default function EmployerApprovalTab() {
         {employers.map((employer) => (
           <div
             key={employer._id}
-            className="bg-white border border-[#F2F4F6] rounded-xl p-5 shadow-sm"
+            className="bg-surface border border-border rounded-xl p-5 shadow-sm"
           >
-            <h3 className="font-bold text-[#191C1E] text-sm">
+            <h3 className="font-bold text-text text-sm">
               {employer.employerProfile?.companyName || employer.username}
             </h3>
-            <p className="text-xs text-[#64748B] mt-0.5">{employer.email}</p>
-            <p className="text-xs text-[#64748B]">
+            <p className="text-xs text-text-secondary mt-0.5">{employer.email}</p>
+            <p className="text-xs text-text-secondary">
               {REGION_LABELS[employer.employerProfile?.region] ||
                 employer.employerProfile?.region}
             </p>
             {employer.employerProfile?.companyDescription && (
-              <p className="text-xs text-[#64748B] mt-2 line-clamp-2">
+              <p className="text-xs text-text-secondary mt-2 line-clamp-2">
                 {employer.employerProfile.companyDescription}
               </p>
             )}
@@ -75,7 +75,7 @@ export default function EmployerApprovalTab() {
               {employer.employerProfile?.registrationDocuments?.length > 0 && (
                 <button
                   onClick={() => setPreviewEmployer(employer)}
-                  className="flex-1 bg-[#F2F4F6] text-[#00236F] text-xs font-bold py-2 rounded-lg"
+                  className="flex-1 bg-surface-alt text-primary text-xs font-bold py-2 rounded-lg"
                 >
                   View Documents
                 </button>
@@ -115,7 +115,7 @@ export default function EmployerApprovalTab() {
         title="Reject Employer"
       >
         <div className="space-y-4">
-          <p className="text-xs text-[#64748B]">
+          <p className="text-xs text-text-secondary">
             Let {rejectingEmployer?.username} know why their registration was rejected.
           </p>
           <textarea
@@ -123,7 +123,7 @@ export default function EmployerApprovalTab() {
             onChange={(e) => setRejectNote(e.target.value)}
             rows={3}
             placeholder="Reason for rejection..."
-            className="w-full border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+            className="w-full border border-border rounded-lg px-3 py-2 text-sm"
           />
           <button
             onClick={handleReject}

@@ -75,20 +75,6 @@ export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
   }
 });
 
-export const updateUserProfile = createAsyncThunk(
-  "auth/updateUserProfile",
-  async ({ userId, updates }, thunkAPI) => {
-    try {
-      const { data } = await axiosClient.put(`/User/${userId}/profile`, updates);
-      return data.user;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Failed to update profile.",
-      );
-    }
-  },
-);
-
 const initialState = {
   user: readStoredUser(),
   token: localStorage.getItem("token") || null,
@@ -159,15 +145,6 @@ const authSlice = createSlice({
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         toast.success("Signed out.");
-      })
-      .addCase(updateUserProfile.fulfilled, (state, action) => {
-        state.user = action.payload;
-        persistUser(action.payload);
-        toast.success("Profile updated successfully.");
-      })
-      .addCase(updateUserProfile.rejected, (state, action) => {
-        state.error = action.payload;
-        toast.error(action.payload || "Failed to update profile.");
       })
       // Keep the "current user" single source of truth in sync whenever the
       // seeker slice mutates portfolio data (skills/certificates/profile),

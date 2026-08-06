@@ -44,7 +44,7 @@ export default function VerificationPortalTab() {
   };
 
   if (verificationsLoading) {
-    return <p className="text-sm text-[#64748B]">Loading verification queue...</p>;
+    return <p className="text-sm text-text-secondary">Loading verification queue...</p>;
   }
 
   if (verifications.length === 0) {
@@ -63,21 +63,21 @@ export default function VerificationPortalTab() {
         {verifications.map((item) => (
           <div
             key={item.certificateId}
-            className="bg-white border border-[#F2F4F6] rounded-xl p-5 shadow-sm"
+            className="bg-surface border border-border rounded-xl p-5 shadow-sm"
           >
             <div className="flex justify-between items-start gap-3">
               <div className="min-w-0">
-                <h3 className="font-bold text-[#191C1E] text-sm truncate">{item.username}</h3>
-                <p className="text-xs text-[#64748B] mt-0.5 truncate">{item.email}</p>
+                <h3 className="font-bold text-text text-sm truncate">{item.username}</h3>
+                <p className="text-xs text-text-secondary mt-0.5 truncate">{item.email}</p>
               </div>
-              <span className="text-[10px] font-bold bg-[#F2F4F6] text-[#00236F] px-2.5 py-1 rounded-full shrink-0">
+              <span className="text-[10px] font-bold bg-surface-alt text-primary px-2.5 py-1 rounded-full shrink-0">
                 {item.category}
               </span>
             </div>
 
-            <div className="mt-3 bg-[#F8FAFC] rounded-lg p-3">
-              <p className="text-xs font-semibold text-[#191C1E]">{item.title}</p>
-              <p className="text-[10px] text-[#64748B] mt-0.5">
+            <div className="mt-3 bg-surface-alt rounded-lg p-3">
+              <p className="text-xs font-semibold text-text">{item.title}</p>
+              <p className="text-[10px] text-text-secondary mt-0.5">
                 {item.skillName} • {item.proficiency}
                 {item.issuer && ` • ${item.issuer}`}
               </p>
@@ -86,7 +86,7 @@ export default function VerificationPortalTab() {
             <div className="flex gap-2 mt-4">
               <button
                 onClick={() => setPreviewItem(item)}
-                className="flex-1 bg-[#F2F4F6] text-[#00236F] text-xs font-bold py-2 rounded-lg"
+                className="flex-1 bg-surface-alt text-primary text-xs font-bold py-2 rounded-lg"
               >
                 View Document
               </button>
@@ -117,7 +117,7 @@ export default function VerificationPortalTab() {
         title="Reject Certificate"
       >
         <div className="space-y-4">
-          <p className="text-xs text-[#64748B]">
+          <p className="text-xs text-text-secondary">
             Let {rejectingItem?.username} know why this certificate was rejected.
           </p>
           <textarea
@@ -125,7 +125,7 @@ export default function VerificationPortalTab() {
             onChange={(e) => setRejectNote(e.target.value)}
             rows={3}
             placeholder="Reason for rejection..."
-            className="w-full border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+            className="w-full border border-border rounded-lg px-3 py-2 text-sm"
           />
           <button
             onClick={handleReject}

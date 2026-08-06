@@ -38,33 +38,33 @@ export default function CandidateProfilePreviewModal({ candidate, onClose }) {
               "https://tse3.mm.bing.net/th/id/OIP.6E59fA0XA6lx8RsJjtAjXwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
             }
             alt={candidate.username}
-            className="w-16 h-16 rounded-full object-cover border border-[#F2F4F6]"
+            className="w-16 h-16 rounded-full object-cover border border-border"
           />
           <div>
-            <h3 className="font-bold text-[#191C1E] text-base">{candidate.username}</h3>
-            <p className="text-xs text-[#64748B] flex items-center gap-1 mt-0.5">
+            <h3 className="font-bold text-text text-base">{candidate.username}</h3>
+            <p className="text-xs text-text-secondary flex items-center gap-1 mt-0.5">
               <FaMapMarkerAlt />{" "}
               {REGION_LABELS[candidate.seekerProfile?.region] || candidate.seekerProfile?.region}
             </p>
-            <p className="text-[10px] text-[#94A3B8] capitalize mt-0.5">
+            <p className="text-[10px] text-text-secondary capitalize mt-0.5">
               {candidate.seekerProfile?.availability?.replace("_", " ")}
             </p>
           </div>
         </div>
 
-        {candidate.bio && <p className="text-sm text-[#64748B]">{candidate.bio}</p>}
+        {candidate.bio && <p className="text-sm text-text-secondary">{candidate.bio}</p>}
 
         <div>
-          <h4 className="text-xs font-bold text-[#191C1E] mb-2">Skill Matrix</h4>
+          <h4 className="text-xs font-bold text-text mb-2">Skill Matrix</h4>
           <div className="space-y-2">
             {skills.map((skill) => (
               <div
                 key={skill._id}
-                className="flex items-center justify-between bg-[#F8FAFC] rounded-lg px-3 py-2"
+                className="flex items-center justify-between bg-surface-alt rounded-lg px-3 py-2"
               >
                 <div>
-                  <p className="text-xs font-semibold text-[#191C1E]">{skill.skillName}</p>
-                  <p className="text-[10px] text-[#64748B] capitalize">
+                  <p className="text-xs font-semibold text-text">{skill.skillName}</p>
+                  <p className="text-[10px] text-text-secondary capitalize">
                     {skill.category} • {skill.proficiency} • {skill.yearsExperience} yrs
                   </p>
                 </div>
@@ -76,15 +76,15 @@ export default function CandidateProfilePreviewModal({ candidate, onClose }) {
               </div>
             ))}
             {skills.length === 0 && (
-              <p className="text-xs text-[#94A3B8]">No skills listed.</p>
+              <p className="text-xs text-text-secondary">No skills listed.</p>
             )}
           </div>
         </div>
 
-        <div className="border-t border-[#F2F4F6] pt-4">
-          <h4 className="text-xs font-bold text-[#191C1E] mb-2">Invite to Apply</h4>
+        <div className="border-t border-border pt-4">
+          <h4 className="text-xs font-bold text-text mb-2">Invite to Apply</h4>
           {activeJobs.length === 0 ? (
-            <p className="text-xs text-[#94A3B8]">
+            <p className="text-xs text-text-secondary">
               You have no active job posts yet. Activate a job in Job Management to invite
               candidates.
             </p>
@@ -93,7 +93,7 @@ export default function CandidateProfilePreviewModal({ candidate, onClose }) {
               <select
                 value={selectedJobId}
                 onChange={(e) => setSelectedJobId(e.target.value)}
-                className="flex-1 border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+                className="flex-1 border border-border rounded-lg px-3 py-2 text-sm"
               >
                 <option value="">Select a job...</option>
                 {activeJobs.map((job) => (
@@ -105,7 +105,7 @@ export default function CandidateProfilePreviewModal({ candidate, onClose }) {
               <button
                 onClick={handleInvite}
                 disabled={!selectedJobId || inviting}
-                className="bg-[#00236F] hover:bg-[#1E3A8A] disabled:bg-[#94A3B8] text-white text-sm font-bold px-4 py-2 rounded-lg flex items-center gap-2 whitespace-nowrap"
+                className="bg-primary hover:bg-primary-dark disabled:bg-border disabled:text-text-secondary text-white text-sm font-bold px-4 py-2 rounded-lg flex items-center gap-2 whitespace-nowrap"
               >
                 <FaPaperPlane /> {inviting ? "Sending..." : "Invite"}
               </button>

@@ -5,8 +5,8 @@ export const fetchJobs = createAsyncThunk(
   "jobs/fetchJobs",
   async (_, thunkAPI) => {
     try {
-      const { data } = await axiosClient.get("/Jop/recentJop");
-      return data;
+      const { data } = await axiosClient.get("/jobs/search", { params: { limit: 9 } });
+      return data.jobs;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Failed to load jobs.",
@@ -19,7 +19,7 @@ export const hideJob = createAsyncThunk(
   "jobs/hideJob",
   async ({ jobId }, thunkAPI) => {
     try {
-      const { data } = await axiosClient.post(`/Jop/${jobId}/hide`);
+      const { data } = await axiosClient.post(`/seeker/jobs/${jobId}/hide`);
       return { jobId, hiddenJobs: data.hiddenJobs };
     } catch (error) {
       return thunkAPI.rejectWithValue(

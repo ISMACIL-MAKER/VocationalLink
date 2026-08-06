@@ -30,7 +30,7 @@ export default function JobDetails() {
       return (
         <Link
           to="/Login"
-          className="w-full bg-[#00236F] hover:bg-[#1E3A8A] text-white font-bold py-3 rounded-xl text-center block transition-colors"
+          className="w-full bg-primary hover:bg-primary-dark text-white font-bold py-3 rounded-xl text-center block transition-colors"
         >
           Login to Apply
         </Link>
@@ -40,7 +40,7 @@ export default function JobDetails() {
       return (
         <Link
           to="/Jop-seeker-Dashboard"
-          className="w-full bg-[#10B981] hover:bg-emerald-600 text-white font-bold py-3 rounded-xl text-center block transition-colors"
+          className="w-full bg-success hover:bg-emerald-600 text-white font-bold py-3 rounded-xl text-center block transition-colors"
         >
           Apply from Dashboard
         </Link>
@@ -49,7 +49,7 @@ export default function JobDetails() {
     return (
       <Link
         to={DASHBOARD_BY_ROLE[user.role] || "/"}
-        className="w-full bg-[#F2F4F6] text-[#00236F] font-bold py-3 rounded-xl text-center block"
+        className="w-full bg-surface-alt text-primary font-bold py-3 rounded-xl text-center block"
       >
         Go to Dashboard
       </Link>
@@ -69,11 +69,11 @@ export default function JobDetails() {
   if (currentJobError || !currentJob) {
     return (
       <div className="max-w-3xl mx-auto px-6 py-16 text-center">
-        <h1 className="text-xl font-bold text-[#00236F]">Job not found</h1>
-        <p className="text-[#64748B] text-sm mt-2">
+        <h1 className="text-xl font-bold text-primary">Job not found</h1>
+        <p className="text-text-secondary text-sm mt-2">
           {currentJobError || "This job may have been closed or removed."}
         </p>
-        <Link to="/jobs" className="text-[#00236F] font-semibold text-sm mt-4 inline-block hover:underline">
+        <Link to="/jobs" className="text-primary font-semibold text-sm mt-4 inline-block hover:underline">
           ← Back to job search
         </Link>
       </div>
@@ -92,53 +92,53 @@ export default function JobDetails() {
       : "Negotiable";
 
   return (
-    <div className="bg-[#F8FAFC] min-h-screen py-10 px-6">
+    <div className="bg-surface-alt min-h-screen py-10 px-6">
       <div className="max-w-3xl mx-auto">
-        <Link to="/jobs" className="text-[#64748B] text-xs font-semibold flex items-center gap-2 mb-6 hover:text-[#00236F]">
+        <Link to="/jobs" className="text-text-secondary text-xs font-semibold flex items-center gap-2 mb-6 hover:text-primary">
           <FaArrowLeft /> Back to job search
         </Link>
 
-        <div className="bg-white rounded-2xl border border-[#F2F4F6] shadow-sm p-8">
-          <span className="inline-block bg-[#F2F4F6] text-[#00236F] text-[10px] font-bold px-2.5 py-1 rounded-full mb-3">
+        <div className="bg-surface rounded-2xl border border-border shadow-sm p-8">
+          <span className="inline-block bg-surface-alt text-primary text-[10px] font-bold px-2.5 py-1 rounded-full mb-3">
             {currentJob.category}
           </span>
-          <h1 className="text-2xl font-extrabold text-[#191C1E]">{currentJob.title}</h1>
-          <p className="text-[#64748B] text-sm mt-1 flex items-center gap-2">
-            <FaBuilding className="text-[#00236F]" /> {companyName}
+          <h1 className="text-2xl font-extrabold text-text">{currentJob.title}</h1>
+          <p className="text-text-secondary text-sm mt-1 flex items-center gap-2">
+            <FaBuilding className="text-primary" /> {companyName}
           </p>
 
-          <div className="flex flex-wrap gap-4 mt-6 text-xs text-[#64748B]">
+          <div className="flex flex-wrap gap-4 mt-6 text-xs text-text-secondary">
             <span className="flex items-center gap-1.5">
-              <FaMapMarkerAlt className="text-[#00236F]" />
+              <FaMapMarkerAlt className="text-primary" />
               {currentJob.region !== "Other"
                 ? REGION_LABELS[currentJob.region] || currentJob.region
                 : currentJob.location}
             </span>
             <span className="flex items-center gap-1.5">
-              <FaBriefcase className="text-[#00236F]" />
+              <FaBriefcase className="text-primary" />
               {currentJob.employmentType}
             </span>
             <span className="flex items-center gap-1.5">
-              <FaMoneyBillWave className="text-[#00236F]" />
+              <FaMoneyBillWave className="text-primary" />
               {salaryLabel}
             </span>
           </div>
 
-          <div className="mt-8 border-t border-[#F2F4F6] pt-6">
-            <h2 className="font-bold text-[#191C1E] text-sm mb-2">Job Description</h2>
-            <p className="text-[#64748B] text-sm leading-relaxed whitespace-pre-line">
+          <div className="mt-8 border-t border-border pt-6">
+            <h2 className="font-bold text-text text-sm mb-2">Job Description</h2>
+            <p className="text-text-secondary text-sm leading-relaxed whitespace-pre-line">
               {currentJob.description || "No description provided."}
             </p>
           </div>
 
           {currentJob.requiredSkills?.length > 0 && (
             <div className="mt-6">
-              <h2 className="font-bold text-[#191C1E] text-sm mb-2">Required Skills</h2>
+              <h2 className="font-bold text-text text-sm mb-2">Required Skills</h2>
               <div className="flex flex-wrap gap-2">
                 {currentJob.requiredSkills.map((skill) => (
                   <span
                     key={skill}
-                    className="bg-[#F2F4F6] text-[#00236F] text-xs font-semibold px-3 py-1 rounded-full"
+                    className="bg-surface-alt text-primary text-xs font-semibold px-3 py-1 rounded-full"
                   >
                     {skill}
                   </span>

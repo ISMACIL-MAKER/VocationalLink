@@ -1,6 +1,6 @@
 export default function DocumentPreview({ fileUrl, fileName, className = "" }) {
   if (!fileUrl) {
-    return <p className="text-xs text-[#94A3B8]">No document attached.</p>;
+    return <p className="text-xs text-text-secondary">No document attached.</p>;
   }
 
   const isImage = fileUrl.startsWith("data:image");
@@ -10,7 +10,7 @@ export default function DocumentPreview({ fileUrl, fileName, className = "" }) {
       <img
         src={fileUrl}
         alt={fileName || "Document preview"}
-        className={`rounded-lg border border-[#E2E8F0] object-contain max-h-72 w-full ${className}`}
+        className={`rounded-lg border border-border object-contain max-h-72 w-full ${className}`}
       />
     );
   }
@@ -19,7 +19,7 @@ export default function DocumentPreview({ fileUrl, fileName, className = "" }) {
     <a
       href={fileUrl}
       download={fileName || "document"}
-      className="inline-block text-xs font-semibold text-[#00236F] hover:underline"
+      className="inline-block text-xs font-semibold text-primary hover:underline"
     >
       Open Document {fileName ? `(${fileName})` : ""}
     </a>

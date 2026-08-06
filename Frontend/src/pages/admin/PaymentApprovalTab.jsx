@@ -35,7 +35,7 @@ export default function PaymentApprovalTab() {
   };
 
   if (paymentsLoading) {
-    return <p className="text-sm text-[#64748B]">Loading payment queue...</p>;
+    return <p className="text-sm text-text-secondary">Loading payment queue...</p>;
   }
 
   if (payments.length === 0) {
@@ -54,22 +54,22 @@ export default function PaymentApprovalTab() {
         {payments.map((payment) => (
           <div
             key={payment._id}
-            className="bg-white border border-[#F2F4F6] rounded-xl p-5 shadow-sm"
+            className="bg-surface border border-border rounded-xl p-5 shadow-sm"
           >
             <div className="flex justify-between items-start gap-3">
               <div className="min-w-0">
-                <h3 className="font-bold text-[#191C1E] text-sm truncate">
+                <h3 className="font-bold text-text text-sm truncate">
                   {payment.employerId?.employerProfile?.companyName ||
                     payment.employerId?.username}
                 </h3>
-                <p className="text-xs text-[#64748B] mt-0.5 truncate">{payment.jobId?.title}</p>
+                <p className="text-xs text-text-secondary mt-0.5 truncate">{payment.jobId?.title}</p>
               </div>
-              <span className="text-[10px] font-bold bg-[#F2F4F6] text-[#00236F] px-2.5 py-1 rounded-full shrink-0">
+              <span className="text-[10px] font-bold bg-surface-alt text-primary px-2.5 py-1 rounded-full shrink-0">
                 {payment.method}
               </span>
             </div>
 
-            <div className="mt-3 bg-[#F8FAFC] rounded-lg p-3 text-xs text-[#334155] space-y-1">
+            <div className="mt-3 bg-surface-alt rounded-lg p-3 text-xs text-text space-y-1">
               <p>
                 Amount:{" "}
                 <span className="font-bold">
@@ -84,7 +84,7 @@ export default function PaymentApprovalTab() {
               {payment.receiptImage && (
                 <button
                   onClick={() => setPreviewPayment(payment)}
-                  className="flex-1 bg-[#F2F4F6] text-[#00236F] text-xs font-bold py-2 rounded-lg"
+                  className="flex-1 bg-surface-alt text-primary text-xs font-bold py-2 rounded-lg"
                 >
                   View Receipt
                 </button>
@@ -116,7 +116,7 @@ export default function PaymentApprovalTab() {
         title="Reject Payment"
       >
         <div className="space-y-4">
-          <p className="text-xs text-[#64748B]">
+          <p className="text-xs text-text-secondary">
             Let the employer know why this payment was rejected.
           </p>
           <textarea
@@ -124,7 +124,7 @@ export default function PaymentApprovalTab() {
             onChange={(e) => setRejectNote(e.target.value)}
             rows={3}
             placeholder="Reason for rejection..."
-            className="w-full border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm"
+            className="w-full border border-border rounded-lg px-3 py-2 text-sm"
           />
           <button
             onClick={handleReject}

@@ -8,8 +8,8 @@ export default function ProtectedRoute({ allowedRoles }) {
 
   if (!bootstrapped) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
-        <div className="h-10 w-10 rounded-full border-4 border-[#00236F]/20 border-t-[#00236F] animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-surface-alt">
+        <div className="h-10 w-10 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
       </div>
     );
   }

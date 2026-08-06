@@ -1,25 +1,41 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import {
+  FaUser,
+  FaEnvelope,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+  FaCheckCircle,
+  FaGoogle,
+  FaLinkedin,
+} from "react-icons/fa";
 import { registerUser, clearAuthError } from "../features/authSlice";
 import { DASHBOARD_BY_ROLE } from "../constants/roles";
+
+const PERKS = [
+  "Verified skill badges employers actually trust",
+  "Post jobs and pay with Zaad or eDahab",
+  "Real-time application pipeline tracking",
+];
 
 export default function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
   const { loading, error } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
-    role: "Job-Seeker",
+    role: searchParams.get("role") === "Employer" ? "Employer" : "Job-Seeker",
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -34,103 +50,174 @@ export default function Register() {
   };
 
   return (
-    <div className="bg-[#F8FAFC] h-screen flex justify-center items-center p-4">
-      <div className="w-full max-w-md bg-[#FFFFFF] shadow-2xl border border-[#F2F4F6] rounded-2xl p-8 transition-all">
+    <div className="min-h-screen flex bg-surface-alt">
+      {/* LEFT — brand panel */}
+      <div className="hidden lg:flex lg:w-1/2 bg-primary text-white flex-col justify-between p-12 relative overflow-hidden">
+        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/5" />
+        <div className="absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-white/5" />
 
-        {/* HEADER SECTION */}
-        <div className="flex flex-col items-center mb-6">
-          <h2 className="text-[#00236F] font-extrabold text-2xl tracking-tight mb-2">
-            Vocational<span className="text-[#10B981]">Link</span>
-          </h2>
-          <p className="text-[#64748B] text-sm text-center">
-            Already have an account?{" "}
-            <Link className="text-[#00236F] font-bold hover:underline" to="/Login">
-              Sign in
-            </Link>
+        <Link to="/" className="text-xl font-extrabold tracking-tight relative z-10">
+          Vocational<span className="text-success">Link</span>
+        </Link>
+
+        <div className="relative z-10">
+          <h1 className="text-4xl font-extrabold leading-tight mb-8 max-w-md">
+            Join Somaliland's fastest-growing vocational talent network.
+          </h1>
+
+          <div className="space-y-4 max-w-md">
+            {PERKS.map((perk) => (
+              <div key={perk} className="flex items-start gap-3">
+                <FaCheckCircle className="text-success mt-0.5 shrink-0" />
+                <p className="text-sm text-white/90">{perk}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-[11px] text-white/60 font-semibold tracking-wide mt-10">
+            TRUSTED BY 500+ COMPANIES ACROSS SOMALILAND
           </p>
         </div>
 
-        {/* FARRIIMAHA CILADDA */}
-        {error && (
-          <div className="bg-red-50 text-red-600 p-3 rounded-xl mb-4 text-xs font-semibold text-center border border-red-100">
-            ⚠️ {error}
-          </div>
-        )}
+        <div />
+      </div>
 
-        {/* FORM CONTAINER */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div>
-            <label className="text-[#191C1E] text-sm font-medium block mb-1">Full Name:</label>
-            <input
-              className="border border-[#C5C5D3] p-2.5 rounded-xl w-full text-[#191C1E] text-sm focus:outline-none focus:border-[#00236F] focus:ring-1 focus:ring-[#00236F] transition-all bg-[#F8FAFC]/50"
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              placeholder="👤 Username"
-              required
-            />
+      {/* RIGHT — form panel */}
+      <div className="flex-1 flex items-center justify-center p-6">
+        <div className="w-full max-w-md">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-text text-2xl font-bold tracking-tight">Create an account</h2>
+            <Link to="/Login" className="text-primary text-sm font-bold hover:underline">
+              Sign in
+            </Link>
           </div>
 
-          <div>
-            <label className="text-[#191C1E] text-sm font-medium block mb-1">Email Address:</label>
-            <input
-              className="border border-[#C5C5D3] p-2.5 rounded-xl w-full text-[#191C1E] text-sm focus:outline-none focus:border-[#00236F] focus:ring-1 focus:ring-[#00236F] transition-all bg-[#F8FAFC]/50"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="📩  example@gmail.com"
-              required
-            />
+          {/* ROLE TOGGLE */}
+          <div className="grid grid-cols-2 bg-surface-alt border border-border rounded-xl p-1 mb-6">
+            {["Job-Seeker", "Employer"].map((role) => (
+              <button
+                key={role}
+                type="button"
+                onClick={() => setFormData({ ...formData, role })}
+                className={`py-2 rounded-lg text-sm font-semibold transition-all ${
+                  formData.role === role
+                    ? "bg-surface text-primary shadow-sm"
+                    : "text-text-secondary hover:text-text"
+                }`}
+              >
+                {role === "Job-Seeker" ? "Job Seeker" : "Employer"}
+              </button>
+            ))}
           </div>
 
-          <div>
-            <label className="text-[#191C1E] text-sm font-medium block mb-1">Password:</label>
-            <input
-              className="border border-[#C5C5D3] p-2.5 rounded-xl w-full text-[#191C1E] text-sm focus:outline-none focus:border-[#00236F] focus:ring-1 focus:ring-[#00236F] transition-all bg-[#F8FAFC]/50 font-sans"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              placeholder="🔐  ••••••••••••"
-            />
-          </div>
+          {error && (
+            <div className="bg-red-50 text-red-600 p-3 rounded-xl mb-4 text-xs font-semibold text-center border border-red-100">
+              ⚠️ {error}
+            </div>
+          )}
 
-          <div>
-            <label className="text-[#191C1E] text-sm font-bold block mb-1">Account Type ⬇️</label>
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              className="border p-2.5 bg-[#F2F4F6] rounded-xl text-[#1E3A8A] font-bold w-full focus:outline-none focus:ring-1 focus:ring-[#00236F]"
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div>
+              <label className="text-text text-sm font-medium block mb-1.5">Full Name</label>
+              <div className="relative">
+                <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-sm" />
+                <input
+                  className="border border-border pl-9 pr-3 py-2.5 rounded-xl w-full text-text text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all bg-surface-alt/50"
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  placeholder="Your full name"
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-text text-sm font-medium block mb-1.5">Email Address</label>
+              <div className="relative">
+                <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-sm" />
+                <input
+                  className="border border-border pl-9 pr-3 py-2.5 rounded-xl w-full text-text text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all bg-surface-alt/50"
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="name@company.com"
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-text text-sm font-medium block mb-1.5">Password</label>
+              <div className="relative">
+                <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-sm" />
+                <input
+                  className="border border-border pl-9 pr-9 py-2.5 rounded-xl w-full text-text text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all bg-surface-alt/50 tracking-widest"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  placeholder="••••••••••••"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+            </div>
+
+            <button
+              disabled={loading}
+              type="submit"
+              className="w-full bg-primary hover:bg-primary-dark disabled:bg-border text-white font-bold py-3 px-4 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg mt-2 flex justify-center items-center gap-2"
             >
-              <option value="Job-Seeker">Job Seeker</option>
-              <option value="Employer">Employer</option>
-            </select>
+              {loading ? (
+                <>
+                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Creating Account...
+                </>
+              ) : (
+                "Create Account"
+              )}
+            </button>
+          </form>
+
+          <div className="flex items-center gap-3 my-6">
+            <div className="flex-1 h-px bg-border" />
+            <p className="text-xs text-text-secondary font-medium">Or continue with</p>
+            <div className="flex-1 h-px bg-border" />
           </div>
 
-          <button
-            disabled={loading}
-            type="submit"
-            className="w-full bg-[#00236F] hover:bg-[#1E3A8A] disabled:bg-[#C5C5D3] text-white font-bold py-3 px-4 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg mt-2 flex justify-center items-center gap-2"
-          >
-            {loading ? (
-              <>
-                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Creating Account...
-              </>
-            ) : (
-              "Create Account"
-            )}
-          </button>
-        </form>
-        <div className="pt-10 text-sm text-red-900" onClick={()=> navigate("/") }>
-          Back home ⬅️
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => toast("Google sign-up is coming soon.")}
+              className="flex items-center justify-center gap-2 border border-border rounded-xl py-2.5 text-sm font-semibold text-text hover:bg-surface-alt transition-all"
+            >
+              <FaGoogle className="text-red-500" /> Google
+            </button>
+            <button
+              type="button"
+              onClick={() => toast("LinkedIn sign-up is coming soon.")}
+              className="flex items-center justify-center gap-2 border border-border rounded-xl py-2.5 text-sm font-semibold text-text hover:bg-surface-alt transition-all"
+            >
+              <FaLinkedin className="text-blue-600" /> LinkedIn
+            </button>
+          </div>
+
+          <p className="text-center text-xs text-text-secondary mt-8">
+            © 2026 VocationalLink. Professional matching for professional skills.
+          </p>
         </div>
       </div>
     </div>
