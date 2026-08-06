@@ -150,6 +150,23 @@ export const deleteCertificate = async (req, res) => {
   }
 };
 
+export const hideJob = async (req, res) => {
+  try {
+    const updated = await User.findByIdAndUpdate(
+      req.user._id,
+      { $addToSet: { hiddenJobs: req.params.jobId } },
+      { new: true },
+    ).select("hiddenJobs");
+
+    return res.status(200).json({
+      message: "Job hidden.",
+      hiddenJobs: updated.hiddenJobs,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 export const getMyApplications = async (req, res) => {
   try {
     const { status } = req.query;

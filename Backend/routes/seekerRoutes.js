@@ -6,6 +6,7 @@ import {
   deleteSkill,
   uploadCertificate,
   deleteCertificate,
+  hideJob,
   getMyApplications,
 } from "../controllers/seekerController.js";
 import { protect, authorize } from "../middleware/authMiddleware.js";
@@ -22,6 +23,8 @@ router.delete("/skills/:skillId", deleteSkill);
 
 router.post("/skills/:skillId/certificates", uploadCertificate);
 router.delete("/skills/:skillId/certificates/:certificateId", deleteCertificate);
+
+router.post("/jobs/:jobId/hide", hideJob);
 
 router.get("/applications", getMyApplications);
 
