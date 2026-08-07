@@ -14,8 +14,8 @@ export const generateRefreshToken = (user) =>
 
 export const refreshCookieOptions = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: "strict",
+  secure: true,        // Waa muhiim si Cross-Site Cookies ay ugu shaqeeyaan HTTPS (Render)
+  sameSite: "none",    // WAA MUHIIM! Si Vercel iyo Render ay Cookie-ga u wadaagaan
   maxAge: 30 * 24 * 60 * 60 * 1000,
   path: "/api/auth",
 };
