@@ -30,7 +30,7 @@ app.use(cookieParser());
 //   }),
 // );
 const allowedOrigins = [
-  "https://vocationallink-frontend.onrender.com", // Geli URL-ka Frontend-kaaga (Xaqiiji in UUSAN lahayn / dhamaadka)
+  "https://vocational-link.vercel.app", // Geli URL-ka Frontend-kaaga (Xaqiiji in UUSAN lahayn / dhamaadka)
   "http://localhost:5173"                          // Frontend-ka Localhost (Xaqiiji in UUSAN lahayn / dhamaadka)
 ];
 
