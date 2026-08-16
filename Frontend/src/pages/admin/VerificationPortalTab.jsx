@@ -16,6 +16,7 @@ export default function VerificationPortalTab() {
   useEffect(() => {
     dispatch(fetchPendingVerifications());
   }, [dispatch]);
+ console.log("Verifications Data:", verifications);
 
   const handleApprove = (item) => {
     dispatch(
@@ -61,11 +62,13 @@ export default function VerificationPortalTab() {
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {verifications.map((item) => (
+        
           <div
             key={item.certificateId}
             className="bg-surface border border-border rounded-xl p-5 shadow-sm"
           >
             <div className="flex justify-between items-start gap-3">
+             
               <div className="min-w-0">
                 <h3 className="font-bold text-text text-sm truncate">{item.username}</h3>
                 <p className="text-xs text-text-secondary mt-0.5 truncate">{item.email}</p>

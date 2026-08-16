@@ -8,8 +8,7 @@ import {
   FaEye,
   FaEyeSlash,
   FaStar,
-  FaGoogle,
-  FaLinkedin,
+
 } from "react-icons/fa";
 import { loginUser, clearAuthError } from "../features/authSlice";
 import { DASHBOARD_BY_ROLE } from "../constants/roles";
@@ -41,8 +40,7 @@ export default function Login() {
     <div className="min-h-screen flex bg-surface-alt">
       {/* LEFT — brand / testimonial panel */}
       <div className="hidden lg:flex lg:w-1/2 bg-primary text-white flex-col justify-between p-12 relative overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/5" />
-        <div className="absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-white/5" />
+     
 
         <Link to="/" className="text-xl font-extrabold tracking-tight relative z-10">
           Vocational<span className="text-success">Link</span>
@@ -53,28 +51,6 @@ export default function Login() {
             Connecting Somaliland's most skilled vocational talent.
           </h1>
 
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 max-w-md">
-            <div className="flex gap-1 text-success mb-3">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <FaStar key={i} />
-              ))}
-            </div>
-            <p className="text-sm text-white/90 leading-relaxed">
-              "VocationalLink transformed our hiring process. We found certified electricians
-              and technicians in half the time it took on traditional job boards."
-            </p>
-            <div className="flex items-center gap-3 mt-4">
-              <img
-                src="https://tse3.mm.bing.net/th/id/OIP.6E59fA0XA6lx8RsJjtAjXwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
-                alt=""
-                className="w-9 h-9 rounded-full object-cover border border-white/30"
-              />
-              <div>
-                <p className="text-xs font-bold">Sarah Jenkins</p>
-                <p className="text-[11px] text-white/70">Director of Talent, BuildCore Inc.</p>
-              </div>
-            </div>
-          </div>
 
           <p className="text-[11px] text-white/60 font-semibold tracking-wide mt-10">
             TRUSTED BY 500+ COMPANIES ACROSS SOMALILAND
@@ -132,6 +108,8 @@ export default function Login() {
                   value={formData.email}
                   onChange={handleChange}
                   name="email"
+                  
+                  
                   placeholder="name@company.com"
                   required
                 />
@@ -186,13 +164,13 @@ export default function Login() {
             </button>
           </form>
 
-          <div className="flex items-center gap-3 my-6">
+          {/* <div className="flex items-center gap-3 my-6">
             <div className="flex-1 h-px bg-border" />
             <p className="text-xs text-text-secondary font-medium">Or continue with</p>
             <div className="flex-1 h-px bg-border" />
-          </div>
+          </div> */}
 
-          <div className="grid grid-cols-2 gap-3">
+          {/* <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => toast("Google sign-in is coming soon.")}
@@ -207,11 +185,11 @@ export default function Login() {
             >
               <FaLinkedin className="text-blue-600" /> LinkedIn
             </button>
-          </div>
+          </div> */}
 
-          <p className="text-center text-xs text-text-secondary mt-8">
+          {/* <p className="text-center text-xs text-text-secondary mt-8">
             © 2026 VocationalLink. Professional matching for professional skills.
-          </p>
+          </p> */}
         </div>
       </div>
     </div>

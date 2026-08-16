@@ -45,7 +45,7 @@ export default function Register() {
     const result = await dispatch(registerUser(formData));
     if (registerUser.fulfilled.match(result)) {
       const role = result.payload.user.role;
-      navigate(DASHBOARD_BY_ROLE[role] || "/");
+      navigate("/Login");
     }
   };
 
@@ -53,10 +53,12 @@ export default function Register() {
     <div className="min-h-screen flex bg-surface-alt">
       {/* LEFT — brand panel */}
       <div className="hidden lg:flex lg:w-1/2 bg-primary text-white flex-col justify-between p-12 relative overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/5" />
-        <div className="absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-white/5" />
+      
 
-        <Link to="/" className="text-xl font-extrabold tracking-tight relative z-10">
+        <Link
+          to="/"
+          className="text-xl font-extrabold tracking-tight relative z-10"
+        >
           Vocational<span className="text-success">Link</span>
         </Link>
 
@@ -64,19 +66,6 @@ export default function Register() {
           <h1 className="text-4xl font-extrabold leading-tight mb-8 max-w-md">
             Join Somaliland's fastest-growing vocational talent network.
           </h1>
-
-          <div className="space-y-4 max-w-md">
-            {PERKS.map((perk) => (
-              <div key={perk} className="flex items-start gap-3">
-                <FaCheckCircle className="text-success mt-0.5 shrink-0" />
-                <p className="text-sm text-white/90">{perk}</p>
-              </div>
-            ))}
-          </div>
-
-          <p className="text-[11px] text-white/60 font-semibold tracking-wide mt-10">
-            TRUSTED BY 500+ COMPANIES ACROSS SOMALILAND
-          </p>
         </div>
 
         <div />
@@ -86,8 +75,13 @@ export default function Register() {
       <div className="flex-1 flex items-center justify-center p-6">
         <div className="w-full max-w-md">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-text text-2xl font-bold tracking-tight">Create an account</h2>
-            <Link to="/Login" className="text-primary text-sm font-bold hover:underline">
+            <h2 className="text-text text-2xl font-bold tracking-tight">
+              Create an account
+            </h2>
+            <Link
+              to="/Login"
+              className="text-primary text-sm font-bold hover:underline"
+            >
               Sign in
             </Link>
           </div>
@@ -118,7 +112,9 @@ export default function Register() {
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
-              <label className="text-text text-sm font-medium block mb-1.5">Full Name</label>
+              <label className="text-text text-sm font-medium block mb-1.5">
+                Full Name
+              </label>
               <div className="relative">
                 <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-sm" />
                 <input
@@ -134,7 +130,9 @@ export default function Register() {
             </div>
 
             <div>
-              <label className="text-text text-sm font-medium block mb-1.5">Email Address</label>
+              <label className="text-text text-sm font-medium block mb-1.5">
+                Email Address
+              </label>
               <div className="relative">
                 <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-sm" />
                 <input
@@ -150,7 +148,9 @@ export default function Register() {
             </div>
 
             <div>
-              <label className="text-text text-sm font-medium block mb-1.5">Password</label>
+              <label className="text-text text-sm font-medium block mb-1.5">
+                Password
+              </label>
               <div className="relative">
                 <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-sm" />
                 <input
@@ -180,9 +180,25 @@ export default function Register() {
             >
               {loading ? (
                 <>
-                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                   Creating Account...
                 </>
@@ -191,33 +207,6 @@ export default function Register() {
               )}
             </button>
           </form>
-
-          <div className="flex items-center gap-3 my-6">
-            <div className="flex-1 h-px bg-border" />
-            <p className="text-xs text-text-secondary font-medium">Or continue with</p>
-            <div className="flex-1 h-px bg-border" />
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              onClick={() => toast("Google sign-up is coming soon.")}
-              className="flex items-center justify-center gap-2 border border-border rounded-xl py-2.5 text-sm font-semibold text-text hover:bg-surface-alt transition-all"
-            >
-              <FaGoogle className="text-red-500" /> Google
-            </button>
-            <button
-              type="button"
-              onClick={() => toast("LinkedIn sign-up is coming soon.")}
-              className="flex items-center justify-center gap-2 border border-border rounded-xl py-2.5 text-sm font-semibold text-text hover:bg-surface-alt transition-all"
-            >
-              <FaLinkedin className="text-blue-600" /> LinkedIn
-            </button>
-          </div>
-
-          <p className="text-center text-xs text-text-secondary mt-8">
-            © 2026 VocationalLink. Professional matching for professional skills.
-          </p>
         </div>
       </div>
     </div>

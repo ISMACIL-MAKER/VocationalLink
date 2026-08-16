@@ -59,7 +59,7 @@ export default function DashboardShell({
       <div className="w-64 bg-surface border-r border-border flex flex-col justify-between p-5 h-screen sticky top-0">
         <div className="flex flex-col gap-6">
           <div className="text-primary font-bold text-xl tracking-wide px-2">
-            <h1>VocationalLink</h1>
+            <h1>Vocational</h1>
           </div>
 
           <div className="flex items-center gap-3 p-2 bg-surface-alt rounded-lg border border-border">
@@ -67,7 +67,7 @@ export default function DashboardShell({
               className="w-10 h-10 rounded-full object-cover border border-border"
               src={
                 user?.profileImage ||
-                "https://tse3.mm.bing.net/th/id/OIP.6E59fA0XA6lx8RsJjtAjXwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQy_oZDGgigd_VZ4JZndi7pOja1no-3cjSQkwVDcup3Q&s=10"
               }
               alt="Profile"
             />
@@ -113,7 +113,7 @@ export default function DashboardShell({
       {/* MAIN COLUMN */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* TOP BAR */}
-        <div className="bg-surface border-b border-border sticky top-0 z-40 flex items-center gap-4 px-6 py-3">
+        {/* <div className="bg-primary border-b border-border sticky top-0 z-40 flex items-center gap-4 px-6 py-3">
           <form onSubmit={handleSearchSubmit} className="flex-1 max-w-md relative">
             <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-xs" />
             <input
@@ -186,7 +186,7 @@ export default function DashboardShell({
               />
             </button>
           </div>
-        </div>
+        </div> */}
 
         <div className="flex-1 p-8 overflow-y-auto">
           <Outlet />

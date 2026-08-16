@@ -32,7 +32,7 @@ const App = () => {
   return (
     <div>
       <Routes>
-        <Route
+        {/* <Route
           path="/"
           element={
             <>
@@ -45,7 +45,7 @@ const App = () => {
               <Footer />
             </>
           }
-        />
+        /> */}
         <Route
           path="/jobs"
           element={
@@ -66,7 +66,7 @@ const App = () => {
             </>
           }
         />
-        <Route path="/Login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/Register" element={<Register />} />
 
         <Route element={<ProtectedRoute allowedRoles={["Employer"]} />}>
