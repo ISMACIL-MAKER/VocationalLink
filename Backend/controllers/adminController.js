@@ -9,6 +9,7 @@ import { SOMALILAND_REGIONS } from "../constants/enums.js";
 
 export const getPendingVerifications = async (req, res) => {
   try {
+    // Stop Browser Caching (304 Status)
     res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Expires", "0");
@@ -18,6 +19,7 @@ export const getPendingVerifications = async (req, res) => {
       "seekerProfile.skills.certificates.verificationStatus": "pending",
     }).select("username email seekerProfile");
 
+    // Debugging Terminal Log
     console.log("Found seekers with pending certs:", seekers.length);
 
     const items = [];
