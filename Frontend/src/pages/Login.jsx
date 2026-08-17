@@ -7,8 +7,6 @@ import {
   FaLock,
   FaEye,
   FaEyeSlash,
-  FaStar,
-
 } from "react-icons/fa";
 import { loginUser, clearAuthError } from "../features/authSlice";
 import { DASHBOARD_BY_ROLE } from "../constants/roles";
@@ -20,15 +18,61 @@ export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [audience, setAudience] = useState("Job-Seeker");
+  
+  // State-yada lagu maareeyo khaladaadka (Validation Errors)
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    // Marka uu isticmaalku qoraal cusub bilaabo tirtir qaladkii hore
+    if (name === "email" && emailError) setEmailError("");
+    if (name === "password" && passwordError) setPasswordError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(clearAuthError());
 
+    let hasError = false;
+    setEmailError("");
+    setPasswordError("");
+
+    const emailTrimmed = formData.email.trim();
+
+    // 1. Hubi haddii la geliyay nambar oo kaliya
+    const isPhoneNumber = /^[0-9+\s-]+$/.test(emailTrimmed);
+    if (isPhoneNumber) {
+      const msg = "Nambarka mobaylka halkan ma geli kartid. Fadlan geli Email!";
+      setEmailError(msg);
+      toast.error(msg);
+      hasError = true;
+    } 
+    // 2. Hubi qaabka saxda ah ee Email-ka
+    else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailTrimmed)) {
+        const msg = "Fadlan geli Email sax ah (tusaale: name@company.com)";
+        setEmailError(msg);
+        toast.error(msg);
+        hasError = true;
+      }
+    }
+
+    // 3. Hubi in Password-ku ka yarayn 6 xaraf/nambar
+    if (formData.password.length < 6) {
+      const msg = "Password-ku waa inuu ka badan yahay ama le'eg yahay 6 xaraf/nambar!";
+      setPasswordError(msg);
+      toast.error(msg);
+      hasError = true;
+    }
+
+    // Haddii uu qalad ka jiro mid ka mid ah, jooji dirista
+    if (hasError) return;
+
+    // Haddii wax walba sax yihiin, dir foomka
     const result = await dispatch(loginUser(formData));
     if (loginUser.fulfilled.match(result)) {
       const role = result.payload.user.role;
@@ -38,10 +82,8 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex bg-surface-alt">
-      {/* LEFT — brand / testimonial panel */}
+      {/* LEFT — brand */}
       <div className="hidden lg:flex lg:w-1/2 bg-primary text-white flex-col justify-between p-12 relative overflow-hidden">
-     
-
         <Link to="/" className="text-xl font-extrabold tracking-tight relative z-10">
           Vocational<span className="text-success">Link</span>
         </Link>
@@ -50,13 +92,10 @@ export default function Login() {
           <h1 className="text-4xl font-extrabold leading-tight mb-10 max-w-md">
             Connecting Somaliland's most skilled vocational talent.
           </h1>
-
-
           <p className="text-[11px] text-white/60 font-semibold tracking-wide mt-10">
             TRUSTED BY 500+ COMPANIES ACROSS SOMALILAND
           </p>
         </div>
-
         <div />
       </div>
 
@@ -91,6 +130,7 @@ export default function Login() {
             ))}
           </div>
 
+          {/* Redux Server Error */}
           {error && (
             <div className="bg-red-50 text-red-600 p-3 rounded-xl mb-4 text-xs font-semibold text-center border border-red-100">
               ⚠️ {error}
@@ -98,35 +138,66 @@ export default function Login() {
           )}
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {/* EMAIL FIELD */}
             <div>
-              <label className="text-text text-sm font-medium block mb-1.5">Email Address</label>
+              <label 
+                className={`text-sm font-medium block mb-1.5 transition-colors ${
+                  emailError ? "text-red-500 font-semibold" : "text-text"
+                }`}
+              >
+                Email Address
+              </label>
               <div className="relative">
-                <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-sm" />
+                <FaEnvelope 
+                  className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm transition-colors ${
+                    emailError ? "text-red-500" : "text-text-secondary"
+                  }`} 
+                />
                 <input
-                  className="border border-border pl-9 pr-3 py-2.5 rounded-xl w-full text-text text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all bg-surface-alt/50"
-                  type="email"
+                  className={`border pl-9 pr-3 py-2.5 rounded-xl w-full text-text text-sm focus:outline-none focus:ring-1 transition-all bg-surface-alt/50 ${
+                    emailError
+                      ? "border-red-500 text-red-600 focus:border-red-500 focus:ring-red-500"
+                      : "border-border focus:border-primary focus:ring-primary"
+                  }`}
+                  type="text"
                   value={formData.email}
                   onChange={handleChange}
                   name="email"
-                  
-                  
                   placeholder="name@company.com"
                   required
                 />
               </div>
+              {emailError && (
+                <p className="text-red-500 text-xs mt-1 font-medium">{emailError}</p>
+              )}
             </div>
 
+            {/* PASSWORD FIELD */}
             <div>
               <div className="flex justify-between items-center mb-1.5">
-                <label className="text-text text-sm font-medium">Password</label>
+                <label 
+                  className={`text-sm font-medium transition-colors ${
+                    passwordError ? "text-red-500 font-semibold" : "text-text"
+                  }`}
+                >
+                  Password
+                </label>
                 <Link to="/forgot-password" className="text-xs text-text-secondary hover:text-primary hover:underline">
                   Forgot password?
                 </Link>
               </div>
               <div className="relative">
-                <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-sm" />
+                <FaLock 
+                  className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm transition-colors ${
+                    passwordError ? "text-red-500" : "text-text-secondary"
+                  }`} 
+                />
                 <input
-                  className="border border-border pl-9 pr-9 py-2.5 rounded-xl w-full text-text text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all bg-surface-alt/50 tracking-widest"
+                  className={`border pl-9 pr-9 py-2.5 rounded-xl w-full text-text text-sm focus:outline-none focus:ring-1 transition-all bg-surface-alt/50 tracking-widest ${
+                    passwordError
+                      ? "border-red-500 text-red-600 focus:border-red-500 focus:ring-red-500"
+                      : "border-border focus:border-primary focus:ring-primary"
+                  }`}
                   type={showPassword ? "text" : "password"}
                   required
                   name="password"
@@ -143,6 +214,9 @@ export default function Login() {
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
+              {passwordError && (
+                <p className="text-red-500 text-xs mt-1 font-medium">{passwordError}</p>
+              )}
             </div>
 
             <button
@@ -163,33 +237,6 @@ export default function Login() {
               )}
             </button>
           </form>
-
-          {/* <div className="flex items-center gap-3 my-6">
-            <div className="flex-1 h-px bg-border" />
-            <p className="text-xs text-text-secondary font-medium">Or continue with</p>
-            <div className="flex-1 h-px bg-border" />
-          </div> */}
-
-          {/* <div className="grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              onClick={() => toast("Google sign-in is coming soon.")}
-              className="flex items-center justify-center gap-2 border border-border rounded-xl py-2.5 text-sm font-semibold text-text hover:bg-surface-alt transition-all"
-            >
-              <FaGoogle className="text-red-500" /> Google
-            </button>
-            <button
-              type="button"
-              onClick={() => toast("LinkedIn sign-in is coming soon.")}
-              className="flex items-center justify-center gap-2 border border-border rounded-xl py-2.5 text-sm font-semibold text-text hover:bg-surface-alt transition-all"
-            >
-              <FaLinkedin className="text-blue-600" /> LinkedIn
-            </button>
-          </div> */}
-
-          {/* <p className="text-center text-xs text-text-secondary mt-8">
-            © 2026 VocationalLink. Professional matching for professional skills.
-          </p> */}
         </div>
       </div>
     </div>

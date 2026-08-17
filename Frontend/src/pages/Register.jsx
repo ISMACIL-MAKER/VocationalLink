@@ -8,43 +8,85 @@ import {
   FaLock,
   FaEye,
   FaEyeSlash,
-  FaCheckCircle,
-  FaGoogle,
-  FaLinkedin,
 } from "react-icons/fa";
 import { registerUser, clearAuthError } from "../features/authSlice";
-import { DASHBOARD_BY_ROLE } from "../constants/roles";
-
-const PERKS = [
-  "Verified skill badges employers actually trust",
-  "Post jobs and pay with Zaad or eDahab",
-  "Real-time application pipeline tracking",
-];
 
 export default function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const { loading, error } = useSelector((state) => state.auth);
+  
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     role: searchParams.get("role") === "Employer" ? "Employer" : "Job-Seeker",
   });
+  
   const [showPassword, setShowPassword] = useState(false);
 
+  // State-yada lagu maareeyo khalaadaadka (Validation Errors)
+  const [errors, setErrors] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    // Marka uu isticmaalku qoraal cusub bilaabo tirtir qaladkii horay ugu jiray field-kaas
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(clearAuthError());
 
+    let hasError = false;
+    const newErrors = { username: "", email: "", password: "" };
+
+    // 1. Hubi Full Name (Ugu yaraan 3 xaraf)
+    if (formData.username.trim().length < 3) {
+      newErrors.username = "Magacu waa inuu ka badan yahay ama le'eg yahay 3 xaraf!";
+      toast.error(newErrors.username);
+      hasError = true;
+    }
+
+    // 2. Hubi Email-ka (Sidoo kale nambar oo kaliya laguma geli karo)
+    const emailTrimmed = formData.email.trim();
+    const isPhoneNumber = /^[0-9+\s-]+$/.test(emailTrimmed);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (isPhoneNumber) {
+      newErrors.email = "Nambarka mobaylka halkan ma geli kartid. Fadlan geli Email!";
+      toast.error(newErrors.email);
+      hasError = true;
+    } else if (!emailRegex.test(emailTrimmed)) {
+      newErrors.email = "Fadlan geli Email sax ah (tusaale: name@company.com)";
+      toast.error(newErrors.email);
+      hasError = true;
+    }
+
+    // 3. Hubi Password-ka (Ugu yaraan 6 xaraf/nambar)
+    if (formData.password.length < 6) {
+      newErrors.password = "Password-ku waa inuu ka badan yahay ama le'eg yahay 6 xaraf/nambar!";
+      toast.error(newErrors.password);
+      hasError = true;
+    }
+
+    if (hasError) {
+      setErrors(newErrors);
+      return;
+    }
+
+    // Haddii wax walba sax yihiin, dir foomka
     const result = await dispatch(registerUser(formData));
     if (registerUser.fulfilled.match(result)) {
-      const role = result.payload.user.role;
       navigate("/Login");
     }
   };
@@ -53,13 +95,11 @@ export default function Register() {
     <div className="min-h-screen flex bg-surface-alt">
       {/* LEFT — brand panel */}
       <div className="hidden lg:flex lg:w-1/2 bg-primary text-white flex-col justify-between p-12 relative overflow-hidden">
-      
-
         <Link
           to="/"
           className="text-xl font-extrabold tracking-tight relative z-10"
         >
-          Vocational<span className="text-success">Link</span>
+          Vocational
         </Link>
 
         <div className="relative z-10">
@@ -104,6 +144,7 @@ export default function Register() {
             ))}
           </div>
 
+          {/* Redux Server Error */}
           {error && (
             <div className="bg-red-50 text-red-600 p-3 rounded-xl mb-4 text-xs font-semibold text-center border border-red-100">
               ⚠️ {error}
@@ -111,14 +152,27 @@ export default function Register() {
           )}
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {/* FULL NAME FIELD */}
             <div>
-              <label className="text-text text-sm font-medium block mb-1.5">
+              <label 
+                className={`text-sm font-medium block mb-1.5 transition-colors ${
+                  errors.username ? "text-red-500 font-semibold" : "text-text"
+                }`}
+              >
                 Full Name
               </label>
               <div className="relative">
-                <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-sm" />
+                <FaUser 
+                  className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm transition-colors ${
+                    errors.username ? "text-red-500" : "text-text-secondary"
+                  }`} 
+                />
                 <input
-                  className="border border-border pl-9 pr-3 py-2.5 rounded-xl w-full text-text text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all bg-surface-alt/50"
+                  className={`border pl-9 pr-3 py-2.5 rounded-xl w-full text-text text-sm focus:outline-none focus:ring-1 transition-all bg-surface-alt/50 ${
+                    errors.username
+                      ? "border-red-500 text-red-600 focus:border-red-500 focus:ring-red-500"
+                      : "border-border focus:border-primary focus:ring-primary"
+                  }`}
                   type="text"
                   name="username"
                   value={formData.username}
@@ -127,17 +181,33 @@ export default function Register() {
                   required
                 />
               </div>
+              {errors.username && (
+                <p className="text-red-500 text-xs mt-1 font-medium">{errors.username}</p>
+              )}
             </div>
 
+            {/* EMAIL FIELD */}
             <div>
-              <label className="text-text text-sm font-medium block mb-1.5">
+              <label 
+                className={`text-sm font-medium block mb-1.5 transition-colors ${
+                  errors.email ? "text-red-500 font-semibold" : "text-text"
+                }`}
+              >
                 Email Address
               </label>
               <div className="relative">
-                <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-sm" />
+                <FaEnvelope 
+                  className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm transition-colors ${
+                    errors.email ? "text-red-500" : "text-text-secondary"
+                  }`} 
+                />
                 <input
-                  className="border border-border pl-9 pr-3 py-2.5 rounded-xl w-full text-text text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all bg-surface-alt/50"
-                  type="email"
+                  className={`border pl-9 pr-3 py-2.5 rounded-xl w-full text-text text-sm focus:outline-none focus:ring-1 transition-all bg-surface-alt/50 ${
+                    errors.email
+                      ? "border-red-500 text-red-600 focus:border-red-500 focus:ring-red-500"
+                      : "border-border focus:border-primary focus:ring-primary"
+                  }`}
+                  type="text"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
@@ -145,16 +215,32 @@ export default function Register() {
                   required
                 />
               </div>
+              {errors.email && (
+                <p className="text-red-500 text-xs mt-1 font-medium">{errors.email}</p>
+              )}
             </div>
 
+            {/* PASSWORD FIELD */}
             <div>
-              <label className="text-text text-sm font-medium block mb-1.5">
+              <label 
+                className={`text-sm font-medium block mb-1.5 transition-colors ${
+                  errors.password ? "text-red-500 font-semibold" : "text-text"
+                }`}
+              >
                 Password
               </label>
               <div className="relative">
-                <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-sm" />
+                <FaLock 
+                  className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm transition-colors ${
+                    errors.password ? "text-red-500" : "text-text-secondary"
+                  }`} 
+                />
                 <input
-                  className="border border-border pl-9 pr-9 py-2.5 rounded-xl w-full text-text text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all bg-surface-alt/50 tracking-widest"
+                  className={`border pl-9 pr-9 py-2.5 rounded-xl w-full text-text text-sm focus:outline-none focus:ring-1 transition-all bg-surface-alt/50 tracking-widest ${
+                    errors.password
+                      ? "border-red-500 text-red-600 focus:border-red-500 focus:ring-red-500"
+                      : "border-border focus:border-primary focus:ring-primary"
+                  }`}
                   type={showPassword ? "text" : "password"}
                   name="password"
                   value={formData.password}
@@ -171,6 +257,9 @@ export default function Register() {
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
+              {errors.password && (
+                <p className="text-red-500 text-xs mt-1 font-medium">{errors.password}</p>
+              )}
             </div>
 
             <button
