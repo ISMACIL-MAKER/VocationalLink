@@ -7,15 +7,15 @@
   --color-primary-dark: #00236f;
   --color-success: #10b981;
   --color-success-dark: #059669;
-  --color-red: red;
-  --color-gren: green;
-  --color-blue: blue;
-  --color-pink: pink;
-  --color-black: black;
 
   --color-surface: #ffffff;
   --color-surface-alt: #f7f9fb;
   --color-border: #e5e7eb;
+    --color-red: red;
+  --color-gren: green;
+  --color-blue: blue;
+  --color-pink: pink;
+  --color-black: black;
 
   --color-text: #191c1e;
   --color-text-secondary: #64748b;
