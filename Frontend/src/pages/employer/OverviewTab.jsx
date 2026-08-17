@@ -164,7 +164,9 @@ export default function OverviewTab() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        {/* STAT CARDS */}
+        {/* cardadka jop seeker */}
+        {/* cardadka jop seeker */}
+        {/* cardadka jop seeker */}
         <div className="bg-surface p-5 rounded-2xl border border-border shadow-sm">
           <div className="p-2.5 rounded-lg w-fit bg-primary/10 text-primary text-lg">
             <FaBriefcase />
@@ -177,6 +179,7 @@ export default function OverviewTab() {
             </p>
           )}
         </div>
+        
 
         <div className="bg-surface p-5 rounded-2xl border border-border shadow-sm">
           <div className="p-2.5 rounded-lg w-fit bg-success/10 text-success text-lg">
