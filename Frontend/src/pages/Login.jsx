@@ -85,7 +85,7 @@ export default function Login() {
       {/* LEFT — brand */}
       <div className="hidden lg:flex lg:w-1/2 bg-primary text-white flex-col justify-between p-12 relative overflow-hidden">
         <Link to="/" className="text-xl font-extrabold tracking-tight relative z-10">
-          Vocational<span className="text-success">Link</span>
+          Vocational
         </Link>
 
         <div className="relative z-10">
